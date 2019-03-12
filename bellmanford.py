@@ -47,7 +47,7 @@ def generatebellmanford():
 graph_askprice, graph_volume = generateGraph()
 d, p = bellman.bellman_ford(graph_askprice, 'HKD')
 print('Graph Ask Price:')
-print(graph_askprice)
+print(json.dumps(json.loads(graph_askprice)),indent=4, sort_keys=True)
 print('Graph Volume')
 print(graph_volume)
 print('Distance = ')
