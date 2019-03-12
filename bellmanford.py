@@ -1,56 +1,36 @@
-import redis
-import time
-import traceback
-import datetime
-import json
-import bellman
-
-# Define redisStarter
-r = redis.StrictRedis(host='localhost', port=6379)                          # Connect to local Redis instance
-graph_askprice = {}
-graph_volume = {}
-
-def generateGraph():
-    print("Begin table construction")
-    keys = r.keys('*')
-    for key in keys:
-        # Get pair name, bid/ask price and volume then store into bellman_ford readable graph
-        pairname = key.decode("utf-8").split('DEPTH',1)[0]
-        valuedump = json.loads(r.get(key))
-        key1 = pairname[:3]
-        key2 = pairname[-3:]
-        # Init Json item if it doesnt exist
-        if not graph_askprice.get(key1):
-            graph_askprice[key1] = {}
-        if not graph_askprice.get(key2):
-            graph_askprice[key2] = {}
-        if not graph_volume.get(key1):
-            graph_volume[key1] = {}
-        if not graph_volume.get(key2):
-            graph_volume[key2] = {}
-        askprice1 = valuedump['asks'][0][0]
-        askprice2 = valuedump['bids'][0][0]
-        volume1 = valuedump['asks'][0][1]
-        volume2 = valuedump['bids'][0][1]
-        # Store value into corresponding position
-        # Say, HKDJPY need to be saved into {'HKD':{'JPY':PRICE},'JPY':{'HKD':PRICE}}
-        graph_askprice[key1].update({key2:float(askprice1)})
-        graph_askprice[key2].update({key1:(1/float(askprice2))})
-        graph_volume[key1].update({key2:volume1})
-        graph_volume[key2].update({key1:volume2})
-    return graph_askprice, graph_volume
-
-def generatebellmanford():
-    print("Placeholder")
-
-# Generatebellmanford()
-graph_askprice, graph_volume = generateGraph()
-d, p = bellman.bellman_ford(graph_askprice, 'HKD')
-print('Graph Ask Price:')
-print(json.dumps(graph_askprice,indent=4, sort_keys=True))
-print('Graph Volume')
-print(graph_volume)
-print('Distance = ')
-print(json.dumps(d,indent=4, sort_keys=True))
-print('Predecessor = ')
-print(json.dumps(p,indent=4, sort_keys=True))
+def bellman_ford(graph, source):
+ # Step 1: Prepare the distance and predecessor for each node
+ distance, predecessor = dict(), dict()
+ for node in graph:
+ distance[node], predecessor[node] = float('inf'), None
+ distance[source] = 0
+   # Step 2: Relax the edges
+ for _ in range(len(graph) - 1):
+ for node in graph:
+ for neighbour in graph[node]:
+ # If the distance between the node and the neighbour is lower than the current, store it
+ if distance[neighbour] > distance[node] + graph[node][neighbour]:
+ distance[neighbour], predecessor[neighbour] = distance[node] + graph[node][neighbour], node
+   # Step 3: Check for negative weight cycles
+ for node in graph:
+ for neighbour in graph[node]:
+ assert distance[neighbour] <= distance[node] + graph[node][neighbour], "Negative weight cycle."
+   return distance, predecessor
+   if __name__ == '__main__':
+ graph = {
+ 'a': {'b': -1, 'c': 4},
+ 'b': {'c': 3, 'd': 2, 'e': 2},
+ 'c': {},
+ 'd': {'b': 1, 'c': 5},
+ 'e': {'d': -3}
+ }
+   distance, predecessor = bellman_ford(graph, source='a')
+   print distance
+   graph = {
+ 'a': {'c': 3},
+ 'b': {'a': 2},
+ 'c': {'b': 7, 'd': 1},
+ 'd': {'a': 6},
+ }
+   distance, predecessor = bellman_ford(graph, source='a')
+   print distance
