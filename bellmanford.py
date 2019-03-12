@@ -38,7 +38,7 @@ def generateGraph():
         graph_askprice[key2].update({key1:(1/float(askprice2))})
         graph_volume[key1].update({key2:volume1})
         graph_volume[key2].update({key1:volume2})
-     return graph_askprice, graph_volume
+    return graph_askprice, graph_volume
 
 def Generatebellmanford():
     print("Placeholder")
