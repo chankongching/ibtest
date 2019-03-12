@@ -3,7 +3,10 @@ import time
 import traceback
 import datetime
 import json
+# First approach https://gist.github.com/joninvski/701720
 import bellman
+# Second approach https://gist.github.com/ngenator/6178728
+import bellmanford
 
 # Define redisStarter
 r = redis.StrictRedis(host='localhost', port=6379)                          # Connect to local Redis instance
@@ -45,12 +48,19 @@ def generatebellmanford():
 
 # Generatebellmanford()
 graph_askprice, graph_volume = generateGraph()
-d, p = bellman.bellman_ford(graph_askprice, 'HKD')
+d1, p1 = bellman.bellman_ford(graph_askprice, 'HKD')
 print('Graph Ask Price:')
 print(json.dumps(json.loads(graph_askprice)),indent=4, sort_keys=True)
 print('Graph Volume')
 print(graph_volume)
+print('First Approach')
 print('Distance = ')
-print(d)
+print(d1)
 print('Predecessor = ')
-print(p)
+print(p1)
+print('##############################################################')
+print('Second Approach')
+print('Distance = ')
+print(d2)
+print('Predecessor = ')
+print(p2)
