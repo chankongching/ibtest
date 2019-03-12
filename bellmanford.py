@@ -40,10 +40,17 @@ def generateGraph():
         graph_volume[key2].update({key1:volume2})
     return graph_askprice, graph_volume
 
-def Generatebellmanford():
+def generatebellmanford():
     print("Placeholder")
 
 # Generatebellmanford()
 graph_askprice, graph_volume = generateGraph()
+d, p = bellman.bellman_ford(graph_askprice, 'HKD')
+print('Graph Ask Price:')
 print(graph_askprice)
+print('Graph Volume')
 print(graph_volume)
+print('Distance = ')
+print(d)
+print('Predecessor = ')
+print(p)
