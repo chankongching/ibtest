@@ -31,7 +31,7 @@ if __name__ == '__main__':
 
     distance, predecessor = bellman_ford(graph, source='a')
 
-    print distance
+    print(distance)
 
     graph = {
         'a': {'c': 3},
@@ -42,4 +42,4 @@ if __name__ == '__main__':
 
     distance, predecessor = bellman_ford(graph, source='a')
 
-    print distance
+    print(distance)
