@@ -293,10 +293,12 @@ def generatebellmanford(graph_askprice):
     nested_p = {}
     #
     for base in graph_askprice:
-    # base = 'HKD'
+        # print('generatebellmanford: run base = ' + base)
+        # base = 'HKD'
         d,p = bellman.bellman_ford(graph_askprice, base)
-        nested_d[base].update(d)
-        nested_p[base].update(p)
+
+        nested_d[base] = d
+        nested_p[base] = p
     return nested_d, nested_p
 
 # to Remove all direct predecessor in bellman ford predecessor result
@@ -313,18 +315,24 @@ def removedirectprede(p, base):
 def findrateandstorenumoftrade(p, base, graph_askprice):
     result = {}
     for cur in p:
+        if cur==base:
+            continue
         tradetimes = 0   # initialize variable
         rate = 1         # initialize variable
         tradestring= cur # initialize variable
         iterator = cur # init loop
         while True:
+            if p[iterator] == base:
+                break
+            # print('p[iterator] = ' + p[iterator])
+            # print('iterator = ' + iterator)
             tradetimes +=1
             rate *= graph_askprice[p[iterator]][iterator]
             tradestring = p[iterator] + ':' + tradestring
             iterator = p[iterator]
-            if p[iterator] == base:
-                break
-        result[cur].update({ "rate": rate, "tradetimes": tradetimes, "tradestring": tradestring })
+            #if p[iterator] == base:
+            #    break
+        result[cur] = { "rate": rate, "tradetimes": tradetimes, "tradestring": tradestring }
     return result
 
 if __name__ == '__main__':
@@ -349,7 +357,7 @@ if __name__ == '__main__':
     # print(json.dumps(p2,indent=4, sort_keys=True))
     # print('##############################################################')
     nested_d, nested_p = generatebellmanford(graph_askprice)
-    print(json.dumps(nested_p,indent=4, sort_keys=True))
-    for cur,p in nested_p:
+    # print(json.dumps(nested_p,indent=4, sort_keys=True))
+    for cur in nested_p:
         print("This is list for " + cur)
-        print(json.dumps(findrateandstorenumoftrade(p, cur, graph_askprice),indent=4, sort_keys=True))
+        print(json.dumps(findrateandstorenumoftrade(nested_p[cur], cur, graph_askprice),indent=4, sort_keys=True))
