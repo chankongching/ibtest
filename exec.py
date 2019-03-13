@@ -62,14 +62,14 @@ def searchbybellmanford(graph_askprice,graph_volume):
     # Remove base
     if base in p:
         del p[base]
-    print('After first removal')
-    print(p)
     # Remove direct predecessor
-    filtered = filter(base, p)
-    for currency in filtered:
-        del p[currency]
+    temp_p = p
+    for currency in p:
+        if base in p[currency]:
+            temp_p.pop(currency)
+
     print('After second removal')
-    print(p)
+    print(temp_p)
     return p
 
 # Generatebellmanford()
