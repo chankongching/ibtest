@@ -43,22 +43,21 @@ def generateGraph():
         graph_volume[key2].update({key1:volume2})
     return graph_askprice, graph_volume
 
-def searchbybellmanford(graph_askprice,graph_volume):
+# to generate a nested destination and predecessorgraph
+def generatebellmanford(graph_askprice):
     ### Upgrade code by updating graph_askprice for affected node only
-    # for base in graph_askprice:
-    #     d,p = bellman.bellman_ford(graph_askprice, base)
-    #     # Remove base
-    #     for currency in p:
-    #         if base in currency:
-    #             del p[base]
-    #     # Remove direct predecessor
-    #     filtered = filter(base, p)
-    #     for currency in filtered:
-    #         del[currency]
-    base = 'HKD'
-    d,p = bellman.bellman_ford(graph_askprice, base)
-    print('Printing predecessor from searchbybellmanford: ')
-    print(p)
+    nested_d = {}
+    nested_p = {}
+    #
+    for base in graph_askprice:
+    # base = 'HKD'
+        d,p = bellman.bellman_ford(graph_askprice, base)
+        nested_d[base].update(d)
+        nested_p[base].update(p)
+    return nested_d, nested_p
+
+# to Remove all direct predecessor in bellman ford predecessor result
+def removedirectprede(p, base):
     # Remove base
     if base in p:
         del p[base]
@@ -66,12 +65,269 @@ def searchbybellmanford(graph_askprice,graph_volume):
     for currency in list(p):
         if base in p[currency]:
             p.pop(currency)
-
-    print('After second removal')
-    print(json.dumps(p,indent=4, sort_keys=True))
     return p
 
-# Generatebellmanford()
+def findrateandstorenumoftrade(p, base, graph_askprice)
+    result = {}
+    for cur in p:
+        tradetimes = 0   # initialize variable
+        rate = 1         # initialize variable
+        tradestring= cur # initialize variable
+        iterator = cur # init loop
+        while True:
+            tradetimes +=1
+            rate *= graph_askprice[p[iterator]][iterator]
+            tradestring = p[iterator] + ':' + tradestring
+            iterator = p[iterator]
+            if p[iterator] == base:
+                break
+        result[cur].update({ "rate": rate, "tradetimes": tradetimes, "tradestring": tradestring })
+    return result
+
+
+# graph_askprice sample format
+# {
+#     "AUD": {
+#         "CAD": 0.94746,
+#         "CHF": 0.71463,
+#         "CNH": 4.75244,
+#         "EUR": 0.6278882861161342,
+#         "GBP": 0.5340054682159945,
+#         "HKD": 5.55071,
+#         "JPY": 78.741,
+#         "KRW": 803.3741715203856,
+#         "NZD": 1.0335,
+#         "SGD": 0.95894,
+#         "USD": 0.7071,
+#         "ZAR": 10.10551
+#     },
+#     "CAD": {
+#         "AUD": 1.0555203715431707,
+#         "CHF": 0.75426,
+#         "CNH": 5.01585,
+#         "EUR": 0.6627168740970483,
+#         "GBP": 0.5636279604558623,
+#         "JPY": 83.109,
+#         "KRW": 847.996608013568,
+#         "NZD": 1.0907980278371656,
+#         "USD": 0.7463020732271595
+#     },
+#     "CHF": {
+#         "AUD": 1.3993842709207949,
+#         "CAD": 1.3258203513423932,
+#         "CNH": 6.65011,
+#         "CZK": 22.5514,
+#         "DKK": 6.55528,
+#         "EUR": 0.8786419709696692,
+#         "GBP": 0.7472724555372888,
+#         "HUF": 277.4,
+#         "JPY": 110.186,
+#         "KRW": 1124.2270938729623,
+#         "NOK": 8.5657,
+#         "NZD": 1.4462361703666209,
+#         "PLN": 3.7788,
+#         "SEK": 9.26938,
+#         "USD": 0.9894818083769531,
+#         "ZAR": 14.1403
+#     },
+#     "CNH": {
+#         "AUD": 0.21044169607589372,
+#         "CAD": 0.19937635077477647,
+#         "CHF": 0.15038068871347815,
+#         "EUR": 0.13212727556200338,
+#         "GBP": 0.11237343941386015,
+#         "HKD": 1.16803,
+#         "JPY": 16.5698,
+#         "SGD": 0.20179272658296304,
+#         "USD": 0.1487957956259988
+#     },
+#     "CZK": {
+#         "CHF": 0.04435494602003069,
+#         "EUR": 0.03896979451227353,
+#         "GBP": 0.033144190486291566,
+#         "USD": 0.043886789637451226
+#     },
+#     "DKK": {
+#         "CHF": 0.15255669769669897,
+#         "GBP": 0.11400038760131784,
+#         "JPY": 16.80994,
+#         "NOK": 1.30672,
+#         "SEK": 1.41405,
+#         "USD": 0.1509486367073876
+#     },
+#     "EUR": {
+#         "AUD": 1.59273,
+#         "CAD": 1.509,
+#         "CHF": 1.13815,
+#         "CNH": 7.56884,
+#         "CZK": 25.6651,
+#         "GBP": 0.85051,
+#         "HKD": 8.8403,
+#         "HUF": 315.723,
+#         "ILS": 4.0762,
+#         "JPY": 125.408,
+#         "KRW": 1273.8853503184714,
+#         "MXN": 21.8053,
+#         "NOK": 9.74896,
+#         "NZD": 1.64601,
+#         "PLN": 4.30051,
+#         "RUB": 74.0533,
+#         "SEK": 10.54978,
+#         "SGD": 1.52726,
+#         "USD": 1.12617,
+#         "ZAR": 16.094
+#     },
+#     "GBP": {
+#         "AUD": 1.87273,
+#         "CAD": 1.77428,
+#         "CHF": 1.33828,
+#         "CNH": 8.89946,
+#         "CZK": 30.1791,
+#         "DKK": 8.7724,
+#         "EUR": 1.1757927782807558,
+#         "HKD": 10.3945,
+#         "HUF": 371.231,
+#         "JPY": 147.457,
+#         "KRW": 1504.3249341857843,
+#         "MXN": 25.6393,
+#         "NOK": 11.46303,
+#         "NZD": 1.93545,
+#         "PLN": 5.0568,
+#         "SEK": 12.40455,
+#         "SGD": 1.79574,
+#         "USD": 1.32417,
+#         "ZAR": 18.9236
+#     },
+#     "HKD": {
+#         "AUD": 0.18016751975987272,
+#         "CNH": 0.8561643835616439,
+#         "EUR": 0.11312038044646353,
+#         "GBP": 0.0962084259339433,
+#         "JPY": 14.187,
+#         "KRW": 144.75969889982628,
+#         "USD": 0.12739113153898676
+#     },
+#     "HUF": {
+#         "CHF": 0.003605812569862619,
+#         "EUR": 0.003167905317645866,
+#         "GBP": 0.0026944736345754857,
+#         "USD": 0.0035677334189589353
+#     },
+#     "ILS": {
+#         "EUR": 0.24540479520969838,
+#         "USD": 0.276365244306876
+#     },
+#     "JPY": {
+#         "AUD": 0.012700509290422548,
+#         "CAD": 0.012032825548095205,
+#         "CHF": 0.009075892614038591,
+#         "CNH": 0.060352944016609136,
+#         "DKK": 0.059491938842286866,
+#         "EUR": 0.007974100122801142,
+#         "GBP": 0.00678195998643608,
+#         "HKD": 0.07049700387733521,
+#         "KRW": 10.203535014705844,
+#         "MXN": 0.17387675615523718,
+#         "NOK": 0.07773879609036047,
+#         "NZD": 0.01312559885544778,
+#         "SEK": 0.08412551526878102,
+#         "SGD": 0.01217833960517823,
+#         "USD": 0.008980126978995483,
+#         "ZAR": 0.12833675564681726
+#     },
+#     "KRW": {
+#         "AUD": 0.001258,
+#         "CAD": 0.00119226,
+#         "CHF": 0.000899,
+#         "EUR": 0.0007865,
+#         "GBP": 0.00067175,
+#         "HKD": 0.00698375,
+#         "JPY": 0.09905725,
+#         "USD": 0.0008855042946958293
+#     },
+#     "MXN": {
+#         "EUR": 0.04586693086018842,
+#         "GBP": 0.03901023238395431,
+#         "JPY": 5.7521,
+#         "USD": 0.05165342617175797
+#     },
+#     "NOK": {
+#         "CHF": 0.11675968521588866,
+#         "DKK": 0.765345170671973,
+#         "EUR": 0.10258514567090686,
+#         "GBP": 0.08724891942213295,
+#         "JPY": 12.865,
+#         "SEK": 1.08225,
+#         "USD": 0.11552840381336156
+#     },
+#     "NZD": {
+#         "AUD": 0.967651413254889,
+#         "CAD": 0.91678,
+#         "CHF": 0.6915,
+#         "EUR": 0.6075629435209488,
+#         "GBP": 0.5167130847254445,
+#         "JPY": 76.192,
+#         "USD": 0.68421
+#     },
+#     "PLN": {
+#         "CHF": 0.2646903123345686,
+#         "EUR": 0.23255813953488372,
+#         "GBP": 0.19778481012658228,
+#         "USD": 0.26189048263797043
+#     },
+#     "RUB": {
+#         "EUR": 0.01350473543548045,
+#         "USD": 0.015207138717542455
+#     },
+#     "SEK": {
+#         "CHF": 0.1078946516621171,
+#         "DKK": 0.7072485908071828,
+#         "EUR": 0.09479823144419418,
+#         "GBP": 0.08062435500515996,
+#         "JPY": 11.88869,
+#         "NOK": 0.9241802521163729,
+#         "USD": 0.1067583364916008
+#     },
+#     "SGD": {
+#         "AUD": 1.0428724879808946,
+#         "CNH": 4.95603,
+#         "EUR": 0.654788797873246,
+#         "GBP": 0.5568858940803029,
+#         "JPY": 82.115,
+#         "USD": 0.7373924328788538
+#     },
+#     "USD": {
+#         "AUD": 1.4142871285728429,
+#         "CAD": 1.33996,
+#         "CHF": 1.01065,
+#         "CNH": 6.72074,
+#         "CZK": 22.7901,
+#         "DKK": 6.62485,
+#         "EUR": 0.8879732897634439,
+#         "GBP": 0.755201449986784,
+#         "HKD": 7.84986,
+#         "HUF": 280.34,
+#         "ILS": 3.6193,
+#         "JPY": 111.358,
+#         "KRW": 1131.008,
+#         "MXN": 19.36166,
+#         "NOK": 8.65671,
+#         "NZD": 1.4615823090077318,
+#         "PLN": 3.8188,
+#         "RUB": 65.7615,
+#         "SEK": 9.36782,
+#         "SGD": 1.35616,
+#         "ZAR": 14.2912
+#     },
+#     "ZAR": {
+#         "AUD": 0.0989805988128267,
+#         "CHF": 0.07072886091169502,
+#         "EUR": 0.06214464912820379,
+#         "GBP": 0.052852446539750325,
+#         "JPY": 7.793,
+#         "USD": 0.0699829731426344
+#     }
+# }
 
 if __name__ == '__main__':
     graph_askprice, graph_volume = generateGraph()
@@ -94,4 +350,4 @@ if __name__ == '__main__':
     print('Predecessor = ')
     print(json.dumps(p2,indent=4, sort_keys=True))
     print('##############################################################')
-    searchbybellmanford(graph_askprice,graph_volume)
+    newp = generatebellmanford(graph_askprice)
