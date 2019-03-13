@@ -14,7 +14,7 @@ graph_askprice = {}
 graph_volume = {}
 
 def generateGraph():
-    print("Begin table construction")
+    # print("Begin table construction")
     keys = r.keys('*')
     for key in keys:
         # Get pair name, bid/ask price and volume then store into bellman_ford readable graph
