@@ -21,7 +21,7 @@ new_products = []
 
 i = 0
 while i < len(products):
-    print(products[i])
+#    print(products[i])
     a,b = products[i].split('.')
     #print("a = " + a)
     #print("b = " + b)
@@ -30,3 +30,21 @@ while i < len(products):
     i += 1
 
 # print(new_products)
+
+
+a = {
+        'a': -1,
+        'b': 2,
+        'c': 3,
+        'd': 4,
+        'e': 5
+    } 
+b = { 
+        'a': -1,
+        'b': 2,
+        'c': 3,
+        'd': 4
+    }
+
+print(a.pop('a'))
+print(a)
