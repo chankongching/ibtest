@@ -60,7 +60,7 @@ def searchbybellmanford(graph_askprice,graph_volume):
     print('Printing predecessor from searchbybellmanford: ')
     print(p)
     # Remove base
-    if base in currency:
+    if base in p:
         del p[base]
     print('After first removal')
     print(p)
