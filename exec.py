@@ -355,5 +355,6 @@ if __name__ == '__main__':
     nested_d, nested_p = generatebellmanford(graph_askprice)
     # print(json.dumps(nested_p,indent=4, sort_keys=True))
     for cur in nested_p:
-        print("This is list for " + cur)
-        print(json.dumps(findrateandstorenumoftrade(nested_p[cur], cur, graph_askprice),indent=4, sort_keys=True))
+        if cur=='HKD':
+            print("This is list for " + cur)
+            print(json.dumps(findrateandstorenumoftrade(nested_p[cur], cur, graph_askprice),indent=4, sort_keys=True))
