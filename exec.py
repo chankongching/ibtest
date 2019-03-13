@@ -324,9 +324,9 @@ def findrateandstorenumoftrade(p, base, graph_askprice):
         while True:
             tradestring = p[iterator] + ':' + tradestring
             tradetimes +=1
+            rate *= graph_askprice[p[iterator]][iterator]
             if p[iterator] == base:
                 break
-            rate *= graph_askprice[p[iterator]][iterator]
             iterator = p[iterator]
         result[cur] = { "rate": rate, "tradetimes": tradetimes, "tradestring": tradestring }
     return result
@@ -356,5 +356,7 @@ if __name__ == '__main__':
     # print(json.dumps(nested_p,indent=4, sort_keys=True))
     for cur in nested_p:
         if cur=='HKD':
+            print('Graph ask price = ')
+            print(graph_askprice[cur])
             print("This is list for " + cur)
             print(json.dumps(findrateandstorenumoftrade(nested_p[cur], cur, graph_askprice),indent=4, sort_keys=True))
