@@ -322,16 +322,12 @@ def findrateandstorenumoftrade(p, base, graph_askprice):
         tradestring= cur # initialize variable
         iterator = cur # init loop
         while True:
+            tradestring = p[iterator] + ':' + tradestring
+            tradetimes +=1
             if p[iterator] == base:
                 break
-            # print('p[iterator] = ' + p[iterator])
-            # print('iterator = ' + iterator)
-            tradetimes +=1
             rate *= graph_askprice[p[iterator]][iterator]
-            tradestring = p[iterator] + ':' + tradestring
             iterator = p[iterator]
-            #if p[iterator] == base:
-            #    break
         result[cur] = { "rate": rate, "tradetimes": tradetimes, "tradestring": tradestring }
     return result
 
