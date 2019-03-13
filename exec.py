@@ -42,49 +42,6 @@ def generateGraph():
         graph_volume[key1].update({key2:volume1})
         graph_volume[key2].update({key1:volume2})
     return graph_askprice, graph_volume
-
-# to generate a nested destination and predecessorgraph
-def generatebellmanford(graph_askprice):
-    ### Upgrade code by updating graph_askprice for affected node only
-    nested_d = {}
-    nested_p = {}
-    #
-    for base in graph_askprice:
-    # base = 'HKD'
-        d,p = bellman.bellman_ford(graph_askprice, base)
-        nested_d[base].update(d)
-        nested_p[base].update(p)
-    return nested_d, nested_p
-
-# to Remove all direct predecessor in bellman ford predecessor result
-def removedirectprede(p, base):
-    # Remove base
-    if base in p:
-        del p[base]
-    # Remove direct predecessor
-    for currency in list(p):
-        if base in p[currency]:
-            p.pop(currency)
-    return p
-
-def findrateandstorenumoftrade(p, base, graph_askprice)
-    result = {}
-    for cur in p:
-        tradetimes = 0   # initialize variable
-        rate = 1         # initialize variable
-        tradestring= cur # initialize variable
-        iterator = cur # init loop
-        while True:
-            tradetimes +=1
-            rate *= graph_askprice[p[iterator]][iterator]
-            tradestring = p[iterator] + ':' + tradestring
-            iterator = p[iterator]
-            if p[iterator] == base:
-                break
-        result[cur].update({ "rate": rate, "tradetimes": tradetimes, "tradestring": tradestring })
-    return result
-
-
 # graph_askprice sample format
 # {
 #     "AUD": {
@@ -329,25 +286,70 @@ def findrateandstorenumoftrade(p, base, graph_askprice)
 #     }
 # }
 
+# to generate a nested destination and predecessorgraph
+def generatebellmanford(graph_askprice):
+    ### Upgrade code by updating graph_askprice for affected node only
+    nested_d = {}
+    nested_p = {}
+    #
+    for base in graph_askprice:
+    # base = 'HKD'
+        d,p = bellman.bellman_ford(graph_askprice, base)
+        nested_d[base].update(d)
+        nested_p[base].update(p)
+    return nested_d, nested_p
+
+# to Remove all direct predecessor in bellman ford predecessor result
+def removedirectprede(p, base):
+    # Remove base
+    if base in p:
+        del p[base]
+    # Remove direct predecessor
+    for currency in list(p):
+        if base in p[currency]:
+            p.pop(currency)
+    return p
+
+def findrateandstorenumoftrade(p, base, graph_askprice):
+    result = {}
+    for cur in p:
+        tradetimes = 0   # initialize variable
+        rate = 1         # initialize variable
+        tradestring= cur # initialize variable
+        iterator = cur # init loop
+        while True:
+            tradetimes +=1
+            rate *= graph_askprice[p[iterator]][iterator]
+            tradestring = p[iterator] + ':' + tradestring
+            iterator = p[iterator]
+            if p[iterator] == base:
+                break
+        result[cur].update({ "rate": rate, "tradetimes": tradetimes, "tradestring": tradestring })
+    return result
+
 if __name__ == '__main__':
     graph_askprice, graph_volume = generateGraph()
-    d1, p1 = bellman.bellman_ford(graph_askprice, 'HKD')
-    d2, p2 = bellmanford.bellman_ford(graph_askprice, 'HKD')
-    print('Graph Ask Price:')
-    print(json.dumps(graph_askprice,indent=4, sort_keys=True))
-    print('Graph Volume')
-    print(graph_volume)
-    print('##############################################################')
-    print('First Approach')
-    print('Distance = ')
-    print(json.dumps(d1,indent=4, sort_keys=True))
-    print('Predecessor = ')
-    print(json.dumps(p1,indent=4, sort_keys=True))
-    print('##############################################################')
-    print('Second Approach')
-    print('Distance = ')
-    print(json.dumps(d2,indent=4, sort_keys=True))
-    print('Predecessor = ')
-    print(json.dumps(p2,indent=4, sort_keys=True))
-    print('##############################################################')
-    newp = generatebellmanford(graph_askprice)
+    # d1, p1 = bellman.bellman_ford(graph_askprice, 'HKD')
+    # d2, p2 = bellmanford.bellman_ford(graph_askprice, 'HKD')
+    # print('Graph Ask Price:')
+    # print(json.dumps(graph_askprice,indent=4, sort_keys=True))
+    # print('Graph Volume')
+    # print(graph_volume)
+    # print('##############################################################')
+    # print('First Approach')
+    # print('Distance = ')
+    # print(json.dumps(d1,indent=4, sort_keys=True))
+    # print('Predecessor = ')
+    # print(json.dumps(p1,indent=4, sort_keys=True))
+    # print('##############################################################')
+    # print('Second Approach')
+    # print('Distance = ')
+    # print(json.dumps(d2,indent=4, sort_keys=True))
+    # print('Predecessor = ')
+    # print(json.dumps(p2,indent=4, sort_keys=True))
+    # print('##############################################################')
+    nested_d, nested_p = generatebellmanford(graph_askprice)
+    print(json.dumps(nested_p,indent=4, sort_keys=True))
+    for cur,p in nested_p:
+        print("This is list for " + cur)
+        print(json.dumps(findrateandstorenumoftrade(p, cur, graph_askprice),indent=4, sort_keys=True))
