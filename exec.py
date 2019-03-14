@@ -30,6 +30,10 @@ def generateGraph():
             graph_bidprice[key1] = {}
         if not graph_bidprice.get(key2):
             graph_bidprice[key2] = {}
+        if not graph_bidprice_inverse.get(key1):
+            graph_bidprice_inverse[key1] = {}
+        if not graph_bidprice_inverse.get(key2):
+            graph_bidprice_inverse[key2] = {}
         if not graph_volume.get(key1):
             graph_volume[key1] = {}
         if not graph_volume.get(key2):
@@ -40,11 +44,14 @@ def generateGraph():
         volume2 = valuedump['asks'][0][1]
         # Store value into corresponding position
         # Say, HKDJPY need to be saved into {'HKD':{'JPY':PRICE},'JPY':{'HKD':PRICE}}
-        graph_bidprice[key1].update({key2:float(bidprice)})
+        graph_bidprice[key1].update({key2:(float(bidprice))})
         graph_bidprice[key2].update({key1:(1/float(askprice))})
+        # Use inverse to get shortese path
+        graph_bidprice_inverse[key1].update({key2:(1/float(bidprice))})
+        graph_bidprice_inverse[key2].update({key1:(float(askprice))})
         graph_volume[key1].update({key2:volume1})
         graph_volume[key2].update({key1:volume2})
-    return graph_bidprice, graph_volume
+    return graph_bidprice, graph_bidprice_inverse, graph_volume
 # graph_bidprice sample format
 # {
 #     "AUD": {
@@ -470,27 +477,9 @@ def generateorder():
     print('Placeholder')
 
 if __name__ == '__main__':
-    graph_bidprice, graph_volume = generateGraph()
-    # d1, p1 = bellman.bellman_ford(graph_askprice, 'HKD')
-    # d2, p2 = bellmanford.bellman_ford(graph_askprice, 'HKD')
-    # print('Graph Ask Price:')
-    # print(json.dumps(graph_askprice,indent=4, sort_keys=True))
-    # print('Graph Volume')
-    # print(graph_volume)
-    # print('##############################################################')
-    # print('First Approach')
-    # print('Distance = ')
-    # print(json.dumps(d1,indent=4, sort_keys=True))
-    # print('Predecessor = ')
-    # print(json.dumps(p1,indent=4, sort_keys=True))
-    # print('##############################################################')
-    # print('Second Approach')
-    # print('Distance = ')
-    # print(json.dumps(d2,indent=4, sort_keys=True))
-    # print('Predecessor = ')
-    # print(json.dumps(p2,indent=4, sort_keys=True))
-    # print('##############################################################')
-    nested_d, nested_p = generatebellmanford(graph_bidprice)
+    graph_bidprice, graph_bidprice_inverse, graph_volume = generateGraph()
+    # Use inverse to calculate nodes
+    nested_d, nested_p = generatebellmanford(graph_bidprice_inverse)
     # print(json.dumps(nested_p,indent=4, sort_keys=True))
     for cur in nested_p:
         if cur == 'SGD':
