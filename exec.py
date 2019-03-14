@@ -482,19 +482,11 @@ def generateorder():
 
 if __name__ == '__main__':
     graph_bidprice, graph_bidprice_inverse, graph_volume = generateGraph()
-    # Use inverse to calculate nodes
+    # Use inverse to calculate nodes graph_bidprice_inverse
     nested_d, nested_p = generatebellmanford(graph_bidprice)
-    # print(json.dumps(nested_p,indent=4, sort_keys=True))
-    print('graph_bidprice = ')
-    print(json.dumps(graph_bidprice,indent=4, sort_keys=True))
     for cur in nested_p:
         if True:
-            print('=========================================================================')
-            print('This is currency ' + cur)
             equivalentprice = generateequivalentpricelist(nested_p[cur], cur, graph_bidprice)
-            print(json.dumps(equivalentprice,indent=4, sort_keys=True))
-            # print('graph_bidprice = ')
-            # print(json.dumps(graph_bidprice,indent=4, sort_keys=True))
             order = findtradableprice(equivalentprice, cur, graph_bidprice)
             print('Order from ' + cur)
             print(json.dumps(order,indent=4, sort_keys=True))
