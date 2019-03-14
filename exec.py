@@ -478,13 +478,19 @@ def isworth(reverseprice, equivalentprice):
 def findtradablevolume(tradestring, graph_volume):
     iterator = 0
     items = tradestring.split(':')
+    min = graph_volume[items[iterator]][items[iterator+1]]
     while True:
-        # if graph_volume[items[iterator]].get
-        print('graph_volume[items[iterator]]')
-        print(graph_volume[items[iterator]])
-        iterator += 1
-        if (iterator+1 == len(items)):
+        print("iterator = ")
+        print(iterator)
+        print("item = ")
+        print(items[iterator])
+        if iterator+1 == len(items):
             break
+        iterator += 1
+        comparator = graph_volume[items[iterator]][items[iterator+1]]
+        if min > comparator:
+            min = comparator
+    return min
 
 
 def generateorder():
@@ -506,7 +512,7 @@ if __name__ == '__main__':
             # print(json.dumps(order,indent=4, sort_keys=True))
             print(order)
             for key in order:
-                orders[count] = order[key] 
+                orders[count] = order[key]
                 count += 1
     print('Orders = ')
     print(orders)
