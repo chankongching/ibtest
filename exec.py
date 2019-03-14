@@ -18,9 +18,9 @@ def generateGraph():
     # print("Begin table construction")
     keys = r.keys('*')
     for key in keys:
-        print('key = ')
-        print(key)
-        print(json.loads(r.get(key)))
+        # print('key = ')
+        # print(key)
+        # print(json.loads(r.get(key)))
         # Get pair name, bid/ask price and volume then store into bellman_ford readable graph
         pairname = key.decode("utf-8").split('DEPTH',1)[0]
         valuedump = json.loads(r.get(key))
@@ -484,9 +484,13 @@ if __name__ == '__main__':
     graph_bidprice, graph_bidprice_inverse, graph_volume = generateGraph()
     # Use inverse to calculate nodes graph_bidprice_inverse
     nested_d, nested_p = generatebellmanford(graph_bidprice)
+    print('graph_bidprice = ')
+    print(graph_bidprice)
     for cur in nested_p:
         if True:
             equivalentprice = generateequivalentpricelist(nested_p[cur], cur, graph_bidprice)
             order = findtradableprice(equivalentprice, cur, graph_bidprice)
+            print('length = ')
+            print(len(order))
             print('Order from ' + cur)
             print(json.dumps(order,indent=4, sort_keys=True))
