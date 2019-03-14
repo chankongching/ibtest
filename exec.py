@@ -448,8 +448,6 @@ def findtradableprice(pricelist, base, graph):
     count=0
     for cur in pricelist:
         items = pricelist[cur]
-        print("items = ")
-        print(items)
         if items["tradetimes"] > 1: # tradetimes > 1 means there r shorter path than direct trade
             key1=items["tradestring"][:3]
             key2=items["tradestring"][-3:]
@@ -457,8 +455,8 @@ def findtradableprice(pricelist, base, graph):
                 if isworth(float(1/graph[key2][key1]),items["rate"]):
                     order[count] = {
                         'tradepair': key1 + ':' + key2,
-                        'tradestring': tradestring,
-                        'tradetimes' : tradetimes,
+                        'tradestring': items["tradestring"],
+                        'tradetimes' : items["tradetimes"],
                         'reverseprice' : float(1/graph[key2][key1])
                         }
     return order
