@@ -307,6 +307,8 @@ def generatebellmanford(graph):
         # print('generatebellmanford: run base = ' + base)
         # base = 'HKD'
         d,p = bellmanford.bellman_ford(graph, base)
+        print('d of ' + base + ' = ')
+        print(json.dumps(d,indent=4, sort_keys=True))
 
         nested_d[base] = d
         nested_p[base] = p
@@ -465,12 +467,13 @@ def findtradableprice(pricelist, base, graph):
                         'tradepair': key1 + ':' + key2,
                         'tradestring': items["tradestring"],
                         'tradetimes' : items["tradetimes"],
+                        'equivalentprice' : items["rate"],
                         'reverseprice' : float(1/graph[key2][key1])
                         }
     return order
 
 def isworth(reverseprice, equivalentprice):
-    return reverseprice > equivalentprice
+    return reverseprice < equivalentprice
 
 def findtradablevolume():
     print('Placeholder')
@@ -482,12 +485,16 @@ if __name__ == '__main__':
     # Use inverse to calculate nodes
     nested_d, nested_p = generatebellmanford(graph_bidprice)
     # print(json.dumps(nested_p,indent=4, sort_keys=True))
+    print('graph_bidprice = ')
+    print(json.dumps(graph_bidprice,indent=4, sort_keys=True))
     for cur in nested_p:
-        if cur == 'SGD':
+        if True:
+            print('=========================================================================')
+            print('This is currency ' + cur)
             equivalentprice = generateequivalentpricelist(nested_p[cur], cur, graph_bidprice)
             print(json.dumps(equivalentprice,indent=4, sort_keys=True))
-            print('graph_bidprice = ')
-            print(json.dumps(graph_bidprice,indent=4, sort_keys=True))
+            # print('graph_bidprice = ')
+            # print(json.dumps(graph_bidprice,indent=4, sort_keys=True))
             order = findtradableprice(equivalentprice, cur, graph_bidprice)
             print('Order from ' + cur)
             print(json.dumps(order,indent=4, sort_keys=True))
