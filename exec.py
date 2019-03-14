@@ -476,6 +476,7 @@ def isworth(reverseprice, equivalentprice):
     return reverseprice < equivalentprice
 
 def findtradablevolume(tradestring, graph_volume):
+    print(json.dumps(graph_volume,indent=4, sort_keys=True))
     iterator = 0
     items = tradestring.split(':')
     min = graph_volume[items[iterator]][items[iterator+1]]
@@ -484,7 +485,7 @@ def findtradablevolume(tradestring, graph_volume):
         print(iterator)
         print("item = ")
         print(items[iterator])
-        if iterator+1 == len(items):
+        if iterator+1 == len(items)-1:
             break
         iterator += 1
         comparator = graph_volume[items[iterator]][items[iterator+1]]
