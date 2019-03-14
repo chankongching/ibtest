@@ -448,6 +448,8 @@ def findtradableprice(pricelist, base, graph):
     count=0
     for cur in pricelist:
         items = pricelist[cur]
+        print("items = ")
+        print(items)
         if items["tradetimes"] > 1: # tradetimes > 1 means there r shorter path than direct trade
             key1=items["tradestring"][:3]
             key2=items["tradestring"][-3:]
