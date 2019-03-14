@@ -480,7 +480,7 @@ def generateorder():
 if __name__ == '__main__':
     graph_bidprice, graph_bidprice_inverse, graph_volume = generateGraph()
     # Use inverse to calculate nodes
-    nested_d, nested_p = generatebellmanford(graph_bidprice_inverse)
+    nested_d, nested_p = generatebellmanford(graph_bidprice)
     # print(json.dumps(nested_p,indent=4, sort_keys=True))
     for cur in nested_p:
         if cur == 'SGD':
