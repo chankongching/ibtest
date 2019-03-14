@@ -504,8 +504,13 @@ if __name__ == '__main__':
         if len(order) != 0:
             # print('Order from ' + cur)
             # print(json.dumps(order,indent=4, sort_keys=True))
-            for key, value in order:
-                orders[count] = value
+            print(order)
+            for key in order:
+                orders[count] = order[key] 
                 count += 1
     print('Orders = ')
-    print(order)
+    print(orders)
+    for key in orders:
+        orders[key].update({'volume': findtradablevolume(orders[key]['tradestring'],graph_volume)})
+    print('Orders after append = ')
+    print(orders)
