@@ -485,12 +485,11 @@ if __name__ == '__main__':
     # Use inverse to calculate nodes graph_bidprice_inverse
     nested_d, nested_p = generatebellmanford(graph_bidprice)
     print('graph_bidprice = ')
-    print(graph_bidprice)
+    print(json.dumps(graph_bidprice,indent=4, sort_keys=True))
     for cur in nested_p:
         if True:
             equivalentprice = generateequivalentpricelist(nested_p[cur], cur, graph_bidprice)
             order = findtradableprice(equivalentprice, cur, graph_bidprice)
-            print('length = ')
-            print(len(order))
-            print('Order from ' + cur)
-            print(json.dumps(order,indent=4, sort_keys=True))
+            if len(order) != 0:
+                print('Order from ' + cur)
+                print(json.dumps(order,indent=4, sort_keys=True))
