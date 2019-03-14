@@ -476,7 +476,17 @@ def isworth(reverseprice, equivalentprice):
     return reverseprice < equivalentprice
 
 def findtradablevolume(tradestring, graph_volume):
-    print('Placeholder')
+    iterator = 0
+    items = tradestring.split(':')
+    while True:
+        # if graph_volume[items[iterator]].get
+        print('graph_volume[items[iterator]]')
+        print(graph_volume[items[iterator]])
+        iterator += 1
+        if (iterator+1 == len(items)):
+            break
+
+
 def generateorder():
     print('Placeholder')
 
