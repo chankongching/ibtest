@@ -460,9 +460,9 @@ def findtradableprice(pricelist, base, graph_askprice):
 def isworth(reverseprice, equivalentprice):
     return reverseprice > equivalentprice
 
-def findtradablevolume()
+def findtradablevolume():
     print('Placeholder')
-def generateorder()
+def generateorder():
     print('Placeholder')
 
 if __name__ == '__main__':
