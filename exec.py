@@ -444,17 +444,18 @@ def findtradableprice(pricelist, base, graph_askprice):
     order={}
     count=0
     for cur in pricelist:
-        if cur["tradetimes"] > 1: # tradetimes > 1 means there r shorter path than direct trade
-            key1=tradestring[:3]
-            key2=tradestring[-3:]
-            # reversetradepair=key2 + ':' + key1
-            if isworth(float(1/graph_askprice[key2][key1]),cur["rate"]):
-                order[count] = {
-                    'tradepair': key1 + ':' + key2,
-                    'tradestring': tradestring,
-                    'tradetimes' : tradetimes,
-                    'reverseprice' : float(1/graph_askprice[key2][key1])
-                    }
+        for item, value in cur:
+            if item == "tradetimes" and value > 1: # tradetimes > 1 means there r shorter path than direct trade
+                key1=tradestring[:3]
+                key2=tradestring[-3:]
+                # reversetradepair=key2 + ':' + key1
+                if isworth(float(1/graph_askprice[key2][key1]),cur["rate"]):
+                    order[count] = {
+                        'tradepair': key1 + ':' + key2,
+                        'tradestring': tradestring,
+                        'tradetimes' : tradetimes,
+                        'reverseprice' : float(1/graph_askprice[key2][key1])
+                        }
     return order
 
 def isworth(reverseprice, equivalentprice):
