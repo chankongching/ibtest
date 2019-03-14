@@ -17,6 +17,9 @@ def generateGraph():
     # print("Begin table construction")
     keys = r.keys('*')
     for key in keys:
+        print('key = ')
+        print(key)
+        print(json.loads(r.get(key)))
         # Get pair name, bid/ask price and volume then store into bellman_ford readable graph
         pairname = key.decode("utf-8").split('DEPTH',1)[0]
         valuedump = json.loads(r.get(key))
@@ -295,7 +298,7 @@ def generatebellmanford(graph_askprice):
     for base in graph_askprice:
         # print('generatebellmanford: run base = ' + base)
         # base = 'HKD'
-        d,p = bellman.bellman_ford(graph_askprice, base)
+        d,p = bellmanford.bellman_ford(graph_askprice, base)
 
         nested_d[base] = d
         nested_p[base] = p
@@ -444,12 +447,12 @@ def findtradableprice(pricelist, base, graph_askprice):
     order={}
     count=0
     for cur in pricelist:
-        for item, value in cur:
-            if item == "tradetimes" and value > 1: # tradetimes > 1 means there r shorter path than direct trade
-                key1=tradestring[:3]
-                key2=tradestring[-3:]
-                # reversetradepair=key2 + ':' + key1
-                if isworth(float(1/graph_askprice[key2][key1]),cur["rate"]):
+        items = pricelist[cur]
+        if items["tradetimes"] > 1: # tradetimes > 1 means there r shorter path than direct trade
+            key1=items["tradestring"][:3]
+            key2=items["tradestring"][-3:]
+            if graph_askprice[key2].get(key1):
+                if isworth(float(1/graph_askprice[key2][key1]),items["rate"]):
                     order[count] = {
                         'tradepair': key1 + ':' + key2,
                         'tradestring': tradestring,
@@ -490,12 +493,11 @@ if __name__ == '__main__':
     nested_d, nested_p = generatebellmanford(graph_askprice)
     # print(json.dumps(nested_p,indent=4, sort_keys=True))
     for cur in nested_p:
-        # if cur=='HKD':
-        # print('Graph ask price = ')
-        # print(graph_askprice[cur])
-        # print("This is list for " + cur)
-        equivalentprice = generateequivalentpricelist(nested_p[cur], cur, graph_askprice)
-        print(json.dumps(equivalentprice,indent=4, sort_keys=True))
-        order = findtradableprice(equivalentprice, cur, graph_askprice)
-        print('Order from ' + cur)
-        print(json.dumps(order,indent=4, sort_keys=True))
+        if cur == 'SGD':
+            equivalentprice = generateequivalentpricelist(nested_p[cur], cur, graph_askprice)
+            print(json.dumps(equivalentprice,indent=4, sort_keys=True))
+            print('graph_askprice = ')
+            print(json.dumps(graph_askprice,indent=4, sort_keys=True))
+            order = findtradableprice(equivalentprice, cur, graph_askprice)
+            print('Order from ' + cur)
+            print(json.dumps(order,indent=4, sort_keys=True))
