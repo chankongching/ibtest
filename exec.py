@@ -10,7 +10,7 @@ import bellmanford
 
 # Define redisStarter
 r = redis.StrictRedis(host='localhost', port=6379)                          # Connect to local Redis instance
-graph_askprice = {}
+graph_bidprice = {}
 graph_volume = {}
 
 def generateGraph():
@@ -26,26 +26,26 @@ def generateGraph():
         key1 = pairname[:3]
         key2 = pairname[-3:]
         # Init Json item if it doesnt exist
-        if not graph_askprice.get(key1):
-            graph_askprice[key1] = {}
-        if not graph_askprice.get(key2):
-            graph_askprice[key2] = {}
+        if not graph_bidprice.get(key1):
+            graph_bidprice[key1] = {}
+        if not graph_bidprice.get(key2):
+            graph_bidprice[key2] = {}
         if not graph_volume.get(key1):
             graph_volume[key1] = {}
         if not graph_volume.get(key2):
             graph_volume[key2] = {}
-        askprice1 = valuedump['asks'][0][0]
-        askprice2 = valuedump['bids'][0][0]
-        volume1 = valuedump['asks'][0][1]
-        volume2 = valuedump['bids'][0][1]
+        askprice = valuedump['asks'][0][0]
+        bidprice = valuedump['bids'][0][0]
+        volume1 = valuedump['bids'][0][1]
+        volume2 = valuedump['asks'][0][1]
         # Store value into corresponding position
         # Say, HKDJPY need to be saved into {'HKD':{'JPY':PRICE},'JPY':{'HKD':PRICE}}
-        graph_askprice[key1].update({key2:float(askprice1)})
-        graph_askprice[key2].update({key1:(1/float(askprice2))})
+        graph_bidprice[key1].update({key2:float(bidprice)})
+        graph_bidprice[key2].update({key1:(1/float(askprice))})
         graph_volume[key1].update({key2:volume1})
         graph_volume[key2].update({key1:volume2})
-    return graph_askprice, graph_volume
-# graph_askprice sample format
+    return graph_bidprice, graph_volume
+# graph_bidprice sample format
 # {
 #     "AUD": {
 #         "CAD": 0.94746,
@@ -290,15 +290,15 @@ def generateGraph():
 # }
 
 # to generate a nested destination and predecessorgraph
-def generatebellmanford(graph_askprice):
-    ### Upgrade code by updating graph_askprice for affected node only
+def generatebellmanford(graph):
+    ### Upgrade code by updating graph for affected node only
     nested_d = {}
     nested_p = {}
     #
-    for base in graph_askprice:
+    for base in graph:
         # print('generatebellmanford: run base = ' + base)
         # base = 'HKD'
-        d,p = bellmanford.bellman_ford(graph_askprice, base)
+        d,p = bellmanford.bellman_ford(graph, base)
 
         nested_d[base] = d
         nested_p[base] = p
@@ -315,7 +315,7 @@ def removedirectprede(p, base):
             p.pop(currency)
     return p
 
-def generateequivalentpricelist(p, base, graph_askprice):
+def generateequivalentpricelist(p, base, graph):
     result = {}
     for cur in p:
         if cur==base:
@@ -327,7 +327,7 @@ def generateequivalentpricelist(p, base, graph_askprice):
         while True:
             tradestring = p[iterator] + ':' + tradestring
             tradetimes +=1
-            rate *= graph_askprice[p[iterator]][iterator]
+            rate *= graph[p[iterator]][iterator]
             if p[iterator] == base:
                 break
             iterator = p[iterator]
@@ -443,7 +443,7 @@ def generateequivalentpricelist(p, base, graph_askprice):
 #     }
 # }
 
-def findtradableprice(pricelist, base, graph_askprice):
+def findtradableprice(pricelist, base, graph):
     order={}
     count=0
     for cur in pricelist:
@@ -451,13 +451,13 @@ def findtradableprice(pricelist, base, graph_askprice):
         if items["tradetimes"] > 1: # tradetimes > 1 means there r shorter path than direct trade
             key1=items["tradestring"][:3]
             key2=items["tradestring"][-3:]
-            if graph_askprice[key2].get(key1):
-                if isworth(float(1/graph_askprice[key2][key1]),items["rate"]):
+            if graph[key2].get(key1):
+                if isworth(float(1/graph[key2][key1]),items["rate"]):
                     order[count] = {
                         'tradepair': key1 + ':' + key2,
                         'tradestring': tradestring,
                         'tradetimes' : tradetimes,
-                        'reverseprice' : float(1/graph_askprice[key2][key1])
+                        'reverseprice' : float(1/graph[key2][key1])
                         }
     return order
 
@@ -470,7 +470,7 @@ def generateorder():
     print('Placeholder')
 
 if __name__ == '__main__':
-    graph_askprice, graph_volume = generateGraph()
+    graph_bidprice, graph_volume = generateGraph()
     # d1, p1 = bellman.bellman_ford(graph_askprice, 'HKD')
     # d2, p2 = bellmanford.bellman_ford(graph_askprice, 'HKD')
     # print('Graph Ask Price:')
@@ -490,14 +490,14 @@ if __name__ == '__main__':
     # print('Predecessor = ')
     # print(json.dumps(p2,indent=4, sort_keys=True))
     # print('##############################################################')
-    nested_d, nested_p = generatebellmanford(graph_askprice)
+    nested_d, nested_p = generatebellmanford(graph_bidprice)
     # print(json.dumps(nested_p,indent=4, sort_keys=True))
     for cur in nested_p:
         if cur == 'SGD':
-            equivalentprice = generateequivalentpricelist(nested_p[cur], cur, graph_askprice)
+            equivalentprice = generateequivalentpricelist(nested_p[cur], cur, graph_bidprice)
             print(json.dumps(equivalentprice,indent=4, sort_keys=True))
-            print('graph_askprice = ')
-            print(json.dumps(graph_askprice,indent=4, sort_keys=True))
-            order = findtradableprice(equivalentprice, cur, graph_askprice)
+            print('graph_bidprice = ')
+            print(json.dumps(graph_bidprice,indent=4, sort_keys=True))
+            order = findtradableprice(equivalentprice, cur, graph_bidprice)
             print('Order from ' + cur)
             print(json.dumps(order,indent=4, sort_keys=True))
