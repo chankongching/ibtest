@@ -516,7 +516,7 @@ def wrapper():
     if len(orders) != 0:
         f = open('orders.txt','a')
         # f.write('Test message' + str(datetime.datetime.now()))
-        f.write(str(datetime.datetime.now()) + ': ' + json.dumps(orders,indent=4, sort_keys=True) + '\n')
+        f.write(str(datetime.datetime.now()) + '!' + json.dumps(orders) + '\n')
         f.close()
 
 def generateorder():
