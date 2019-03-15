@@ -513,9 +513,11 @@ def wrapper():
                 count += 1
     for key in orders:
         orders[key].update({'volume': findtradablevolume(orders[key]['tradestring'],graph_volume)})
-    f = open('orders.txt','w')
-    f.write(str(datetime.datetime.now()) + ': ' orders + '\n')
-    f.close()
+    if len(orders) != 0:
+        f = open('orders.txt','w')
+        f.write('Test message' + print(str(datetime.datetime.now())))
+        f.write(str(datetime.datetime.now()) + ': ' + json.dumps(orders,indent=4, sort_keys=True) + '\n')
+        f.close()
 
 def generateorder():
     print('Placeholder')
@@ -539,7 +541,7 @@ if __name__ == '__main__':
     for key in orders:
         orders[key].update({'volume': findtradablevolume(orders[key]['tradestring'],graph_volume)})
     f = open('orders.txt','w')
-    f.write(str(datetime.datetime.now()) + ': ' orders + '\n')
+    f.write(str(datetime.datetime.now()) + ': ' + json.dumps(orders,indent=4, sort_keys=True) + '\n')
     f.close()
     # print('Orders after append = ')
     # print(orders)
