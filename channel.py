@@ -1,7 +1,7 @@
 import redis
 import time
 import traceback
-import datetime
+# import datetime
 
 # Define redisStarter
 r = redis.StrictRedis(host='localhost', port=6379)                          # Connect to local Redis instance
@@ -14,7 +14,7 @@ def RedisCheck():
 
         while PAUSE:                                                                # Will stay in loop until START message received
 #            print("Waiting For redisStarter...")
-            print(str(datetime.datetime.now()))
+            # print(str(datetime.datetime.now()))
             message = p.get_message()                                               # Checks for message
             if message:
                 command = message['data']                                           # Get data from message

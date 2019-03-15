@@ -8,6 +8,10 @@ import bellman
 # Second approach https://gist.github.com/ngenator/6178728
 import bellmanford
 
+# For testing purpose
+import os
+import datetime
+
 # Define redisStarter
 r = redis.StrictRedis(host='localhost', port=6379)                          # Connect to local Redis instance
 graph_bidprice = {}
@@ -480,11 +484,9 @@ def findtradablevolume(tradestring, graph_volume):
     iterator = 0
     items = tradestring.split(':')
     min = graph_volume[items[iterator]][items[iterator+1]]
+
+    # loop thru tradestring one by one to check the minimum volume
     while True:
-        print("iterator = ")
-        print(iterator)
-        print("item = ")
-        print(items[iterator])
         if iterator+1 == len(items)-1:
             break
         iterator += 1
@@ -493,6 +495,27 @@ def findtradablevolume(tradestring, graph_volume):
             min = comparator
     return min
 
+def wrapper():
+    orders = {}
+    count = 0;
+    graph_bidprice, graph_bidprice_inverse, graph_volume = generateGraph()
+    # Use inverse to calculate nodes graph_bidprice_inverse
+    nested_d, nested_p = generatebellmanford(graph_bidprice)
+    # After generated nested bellmanford destination and predecessor json,
+    # push into loop to find equivalentprices
+    for cur in nested_p:
+        equivalentprice = generateequivalentpricelist(nested_p[cur], cur, graph_bidprice)
+        order = findtradableprice(equivalentprice, cur, graph_bidprice)
+        if len(order) != 0:
+            # Push order generated in each iteration into orders array
+            for key in order:
+                orders[count] = order[key]
+                count += 1
+    for key in orders:
+        orders[key].update({'volume': findtradablevolume(orders[key]['tradestring'],graph_volume)})
+    f = open('orders.txt','w')
+    f.write(str(datetime.datetime.now()) + ': ' orders + '\n')
+    f.close()
 
 def generateorder():
     print('Placeholder')
@@ -503,21 +526,20 @@ if __name__ == '__main__':
     graph_bidprice, graph_bidprice_inverse, graph_volume = generateGraph()
     # Use inverse to calculate nodes graph_bidprice_inverse
     nested_d, nested_p = generatebellmanford(graph_bidprice)
-    # print('graph_bidprice = ')
-    # print(json.dumps(graph_bidprice,indent=4, sort_keys=True))
+    # After generated nested bellmanford destination and predecessor json,
+    # push into loop to find equivalentprices
     for cur in nested_p:
         equivalentprice = generateequivalentpricelist(nested_p[cur], cur, graph_bidprice)
         order = findtradableprice(equivalentprice, cur, graph_bidprice)
         if len(order) != 0:
-            # print('Order from ' + cur)
-            # print(json.dumps(order,indent=4, sort_keys=True))
-            print(order)
+            # Push order generated in each iteration into orders array
             for key in order:
                 orders[count] = order[key]
                 count += 1
-    print('Orders = ')
-    print(orders)
     for key in orders:
         orders[key].update({'volume': findtradablevolume(orders[key]['tradestring'],graph_volume)})
-    print('Orders after append = ')
-    print(orders)
+    f = open('orders.txt','w')
+    f.write(str(datetime.datetime.now()) + ': ' orders + '\n')
+    f.close()
+    # print('Orders after append = ')
+    # print(orders)
