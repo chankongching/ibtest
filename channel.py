@@ -2,6 +2,7 @@ import redis
 import time
 import traceback
 # import datetime
+import exec
 
 # Define redisStarter
 r = redis.StrictRedis(host='localhost', port=6379)                          # Connect to local Redis instance
@@ -19,6 +20,7 @@ def RedisCheck():
             if message:
                 command = message['data']                                           # Get data from message
                 print(command)
+                exec.wrapper()
 #                if command == b'START':                                             # Checks for START message
 #                    PAUSE = False                                                   # Breaks loop
             else:
