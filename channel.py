@@ -19,8 +19,8 @@ def RedisCheck():
         while PAUSE:                                                                # Will stay in loop until START message received
 #            print("Waiting For redisStarter...")
             # print(str(datetime.datetime.now()))
-            print('Time difference = ' + str(datetime.datetime.now() - last))
-            last = datetime.datetime.now()
+            # print('Time difference = ' + str(datetime.datetime.now() - last))
+            # last = datetime.datetime.now()
             message = p.get_message()                                               # Checks for message
             if message:
                 command = message['data']                                           # Get data from message
