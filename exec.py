@@ -480,7 +480,7 @@ def isworth(reverseprice, equivalentprice):
     return reverseprice < equivalentprice
 
 def findtradablevolume(tradestring, graph_volume):
-    print(json.dumps(graph_volume,indent=4, sort_keys=True))
+    # print(json.dumps(graph_volume,indent=4, sort_keys=True))
     iterator = 0
     items = tradestring.split(':')
     min = graph_volume[items[iterator]][items[iterator+1]]
@@ -513,9 +513,9 @@ def wrapper():
                 count += 1
     for key in orders:
         orders[key].update({'volume': findtradablevolume(orders[key]['tradestring'],graph_volume)})
-    if len(orders) != 0:
-        f = open('orders.txt','w')
-        f.write('Test message' + print(str(datetime.datetime.now())))
+    if True:# len(orders) != 0:
+        f = open('orders.txt','a')
+        # f.write('Test message' + str(datetime.datetime.now()))
         f.write(str(datetime.datetime.now()) + ': ' + json.dumps(orders,indent=4, sort_keys=True) + '\n')
         f.close()
 
