@@ -496,24 +496,51 @@ def findtradablevolume(tradestring, graph_volume):
             min = comparator
     return min
 
+def checkKey(dict, key):
+    if key in dict:
+        return True
+    else:
+        return False
+
+def looporder(graph_bidprice,graph_volume):
+    orders = {}
+    count = 0;
+    for cur in graph_bidprice:
+        for tar in graph_bidprice[cur]:
+            # base = tar
+            # print(graph_bidprice[cur][tar])
+            # Find equivalent price
+            for base in graph_bidprice[cur]:
+                if base != tar:
+                    if checkKey(graph_bidprice[base],tar):
+                        if graph_bidprice[cur][base]*graph_bidprice[base][tar]/(1 + 0.0024) > 1/graph_bidprice[tar][cur]:
+                            volume = graph_volume[cur][base] if graph_volume[cur][base] < graph_volume[base][tar] else volume = graph_volume[base][tar]
+                            orders[count] = {
+                                "tradepair": cur+":"+tar,
+                                "tradestring": cur+":"+base+":"+tar,
+                                "tradetimes": 2,
+                                "equivalentprice": graph_bidprice[cur][base]*graph_bidprice[base][tar],
+                                "reverseprice": float(1/graph_bidprice[tar][cur]),
+                                "volume": volume
+                                }
+                            count += 1
+    return orders
+
 def wrapper():
     orders = {}
     count = 0;
     graph_bidprice, graph_bidprice_inverse, graph_volume = generateGraph()
 
-    print("graph_bidprice = ")
-    print(json.dumps(graph_bidprice,indent=4, sort_keys=True))
-    print("/n")
-    print("graph_bidprice_inverse = ")
-    print(json.dumps(graph_bidprice_inverse,indent=4, sort_keys=True))
-    print("/n")
-    print("graph_volume = ")
-    print(json.dumps(graph_volume,indent=4, sort_keys=True))
-    print("/n")
+    orders = looporder(graph_bidprice,graph_volume)
+    # Run for loop checking
+    if len(orders) != 0:
+        f = open('orders_loop.txt','a')
+        # f.write('Test message' + str(datetime.datetime.now()))
+        f.write(str(datetime.datetime.now()) + '!' + json.dumps(orders) + '\n')
+        f.close()
 
-    # Do not run Bellmanford when writing loop
-    sys.exit()
-
+    # Start BellmanFord
+    orders = {}
     # Use inverse to calculate nodes graph_bidprice_inverse
     nested_d, nested_p = generatebellmanford(graph_bidprice)
     # After generated nested bellmanford destination and predecessor json,
@@ -529,7 +556,7 @@ def wrapper():
     for key in orders:
         orders[key].update({'volume': findtradablevolume(orders[key]['tradestring'],graph_volume)})
     if len(orders) != 0:
-        f = open('orders.txt','a')
+        f = open('orders_bellman.txt','a')
         # f.write('Test message' + str(datetime.datetime.now()))
         f.write(str(datetime.datetime.now()) + '!' + json.dumps(orders) + '\n')
         f.close()
