@@ -514,7 +514,10 @@ def looporder(graph_bidprice,graph_volume):
                 if base != tar:
                     if checkKey(graph_bidprice[base],tar):
                         if graph_bidprice[cur][base]*graph_bidprice[base][tar]/(1 + 0.0024) > 1/graph_bidprice[tar][cur]:
-                            volume = graph_volume[cur][base] if graph_volume[cur][base] < graph_volume[base][tar] else volume = graph_volume[base][tar]
+                            if graph_volume[cur][base] < graph_volume[base][tar]:
+                                volume = graph_volume[cur][base]
+                            else
+                                volume = graph_volume[base][tar]
                             orders[count] = {
                                 "tradepair": cur+":"+tar,
                                 "tradestring": cur+":"+base+":"+tar,
