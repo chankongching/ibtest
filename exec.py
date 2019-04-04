@@ -11,6 +11,7 @@ import bellmanford
 # For testing purpose
 import os
 import datetime
+import sys
 
 # Define redisStarter
 r = redis.StrictRedis(host='localhost', port=6379)                          # Connect to local Redis instance
@@ -466,7 +467,7 @@ def findtradableprice(pricelist, base, graph):
             key1=items["tradestring"][:3]
             key2=items["tradestring"][-3:]
             if graph[key2].get(key1):
-                if isworth(float(1/graph[key2][key1]),items["rate"]):
+                if isworth(float(1/graph[key2][key1])*(1 + (items["tradetimes"]+1)*8/10000),items["rate"]):
                     order[count] = {
                         'tradepair': key1 + ':' + key2,
                         'tradestring': items["tradestring"],
@@ -499,6 +500,20 @@ def wrapper():
     orders = {}
     count = 0;
     graph_bidprice, graph_bidprice_inverse, graph_volume = generateGraph()
+
+    print("graph_bidprice = ")
+    print(json.dumps(graph_bidprice,indent=4, sort_keys=True))
+    print("/n")
+    print("graph_bidprice_inverse = ")
+    print(json.dumps(graph_bidprice_inverse,indent=4, sort_keys=True))
+    print("/n")
+    print("graph_volume = ")
+    print(json.dumps(graph_volume,indent=4, sort_keys=True))
+    print("/n")
+
+    # Do not run Bellmanford when writing loop
+    sys.exit()
+
     # Use inverse to calculate nodes graph_bidprice_inverse
     nested_d, nested_p = generatebellmanford(graph_bidprice)
     # After generated nested bellmanford destination and predecessor json,
@@ -518,6 +533,8 @@ def wrapper():
         # f.write('Test message' + str(datetime.datetime.now()))
         f.write(str(datetime.datetime.now()) + '!' + json.dumps(orders) + '\n')
         f.close()
+
+
 
 def generateorder():
     print('Placeholder')
