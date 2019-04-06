@@ -516,7 +516,7 @@ def looporder(graph_bidprice,graph_volume):
                         if graph_bidprice[cur][base]*graph_bidprice[base][tar]/(1 + 0.0024) > 1/graph_bidprice[tar][cur]:
                             if graph_volume[cur][base] < graph_volume[base][tar]:
                                 volume = graph_volume[cur][base]
-                            else
+                            else:
                                 volume = graph_volume[base][tar]
                             orders[count] = {
                                 "tradepair": cur+":"+tar,
