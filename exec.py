@@ -551,6 +551,10 @@ def wrapper():
         # Print result for checking
         f.write(str("graph_bidprice = " + '\n'))
         f.write(str(json.dumps(graph_bidprice,indent=4, sort_keys=True) + '\n'))
+        f.write(str("graph_bidprice_inverse = " + '\n'))
+        f.write(str(json.dumps(graph_bidprice_inverse,indent=4, sort_keys=True) + '\n'))
+        f.write(str("graph_volumn = " + '\n'))
+        f.write(str(json.dumps(graph_volumn,indent=4, sort_keys=True) + '\n'))
         f.close()
 
     # Start BellmanFord
