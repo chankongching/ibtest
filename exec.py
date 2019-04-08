@@ -345,6 +345,12 @@ def removedirectprede(p, base):
 
 def generateequivalentpricelist(p, base, graph):
     result = {}
+    print("p = ", end='')
+    print(p)
+    print("base = ", end="")
+    print(json.dumps(base,indent=4, sort_keys=True))
+    print("graph = ", end="")
+    print(json.dumps(graph,indent=4, sort_keys=True))
     for cur in p:
         if cur==base:
             continue
