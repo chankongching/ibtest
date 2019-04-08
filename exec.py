@@ -559,7 +559,7 @@ def looporder(graph_bidprice,graph_volume):
 def wrapper():
     orders = {}
     count = 0;
-    graph_bidprice, graph_bidprice_inverse, graph_volume = generateGraph()
+    graph_bidprice, graph_bidprice_minuslog, graph_bidprice_inverse, graph_volume = generateGraph()
 
     orders = looporder(graph_bidprice,graph_volume)
     # Run for loop checking
@@ -581,7 +581,7 @@ def wrapper():
     # Start BellmanFord
     orders = {}
     # Use inverse to calculate nodes graph_bidprice_inverse
-    nested_d, nested_p = generatebellmanford(graph_bidprice_inverse)
+    nested_d, nested_p = generatebellmanford(graph_bidprice_minuslog)
     # After generated nested bellmanford destination and predecessor json,
     # push into loop to find equivalentprices
     for cur in nested_p:
