@@ -31,6 +31,8 @@ def bellman_ford(graph, source):
             print(graph[node][neighbour])
             print("graph = ", end='')
             print(json.dumps(graph,indent=4, sort_keys=True))
+            print("distance = ", end='')
+            print(json.dumps(distance,indent=4, sort_keys=True))
             assert distance[neighbour] <= distance[node] * graph[node][neighbour], "Negative weight cycle."
 
     return distance, predecessor
