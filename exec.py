@@ -1311,7 +1311,7 @@ if __name__ == '__main__':
     }
 
     # Use inverse to calculate nodes graph_bidprice_inverse
-    nested_d, nested_p = generatebellmanford(graph_bidprice)
+    nested_d, nested_p = generatebellmanford(graph_bidprice_inverse)
     # After generated nested bellmanford destination and predecessor json,
     # push into loop to find equivalentprices
     for cur in nested_p:
