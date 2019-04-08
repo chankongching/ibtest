@@ -15,17 +15,22 @@ def bellman_ford(graph, source):
                     distance[neighbour], predecessor[neighbour] = distance[node] * graph[node][neighbour], node
 
     # Step 3: Check for negative weight cycles
-    # for node in graph:
-    #     for neighbour in graph[node]:
-    #         print("node = ", end='')
-    #         print(node)
-    #         print("neighbour", end='')
-    #         print(neighbour)
-    #         print('distance[neighbour] = ',end='')
-    #         print(distance[neighbour])
-    #         print('distance[node] * graph[node][neighbour] = ', end='')
-    #         print(distance[node] * graph[node][neighbour])
-            # assert math.log10(distance[neighbour]) <= math.log10(distance[node]) + math.log10(graph[node][neighbour]), "Negative weight cycle."
+    for node in graph:
+        for neighbour in graph[node]:
+            print("node = ", end='')
+            print(node)
+            print("neighbour", end='')
+            print(neighbour)
+            print('distance[neighbour] = ',end='')
+            print(distance[neighbour])
+            print('distance[node] * graph[node][neighbour] = ', end='')
+            print(distance[node] * graph[node][neighbour])
+            print('distance[node] = ', end='')
+            print(distance[node])
+            print('graph[node][neighbour] = ', end='')
+            print(graph[node][neighbour])
+
+            assert distance[neighbour] <= distance[node] * graph[node][neighbour], "Negative weight cycle."
 
     return distance, predecessor
 
