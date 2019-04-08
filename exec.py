@@ -63,8 +63,8 @@ def generateGraph():
             # Say, HKDJPY need to be saved into {'HKD':{'JPY':PRICE},'JPY':{'HKD':PRICE}}
             graph_bidprice[key1].update({key2:(float(bidprice))})
             graph_bidprice[key2].update({key1:(1/float(askprice))})
-            graph_bidprice_minuslog[key1].update({key2:(math.log10(float(bidprice)))})
-            graph_bidprice_minuslog[key2].update({key1:(math.log10(1/float(askprice)))})
+            graph_bidprice_minuslog[key1].update({key2:(-1 * math.log10(float(bidprice)))})
+            graph_bidprice_minuslog[key2].update({key1:(-1 * math.log10(1/float(askprice)))})
             # Use inverse to get shortese path
             graph_bidprice_inverse[key1].update({key2:(1/float(bidprice))})
             graph_bidprice_inverse[key2].update({key1:(float(askprice))})
