@@ -543,7 +543,7 @@ def wrapper():
         # f.write('Test message' + str(datetime.datetime.now()))
         f.write(str(datetime.datetime.now()) + '!' + json.dumps(orders) + '\n')
         f.close()
-        f = open('orders_pricecheck.txt','a')
+        f = open('orders_loop_pricecheck.txt','a')
         # Print result for checking
         f.write(str("graph_bidprice = " + '\n'))
         f.write(str(json.dumps(graph_bidprice,indent=4, sort_keys=True) + '\n'))
@@ -569,6 +569,11 @@ def wrapper():
         f = open('orders_bellman.txt','a')
         # f.write('Test message' + str(datetime.datetime.now()))
         f.write(str(datetime.datetime.now()) + '!' + json.dumps(orders) + '\n')
+        f.close()
+        f = open('orders_bellman_pricecheck.txt','a')
+        # Print result for checking
+        f.write(str("graph_bidprice = " + '\n'))
+        f.write(str(json.dumps(graph_bidprice,indent=4, sort_keys=True) + '\n'))
         f.close()
 
 
