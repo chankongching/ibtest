@@ -11,21 +11,21 @@ def bellman_ford(graph, source):
         for node in graph:
             for neighbour in graph[node]:
                 # If the distance between the node and the neighbour is lower than the current, store it
-                if math.log10(distance[neighbour]) > math.log10(distance[node]) + math.log10(graph[node][neighbour]):
+                if distance[neighbour] > distance[node] * graph[node][neighbour]:
                     distance[neighbour], predecessor[neighbour] = distance[node] * graph[node][neighbour], node
 
     # Step 3: Check for negative weight cycles
-    for node in graph:
-        for neighbour in graph[node]:
-            print("node = ", end='')
-            print(node)
-            print("neighbour", end='')
-            print(neighbour)
-            print('distance[neighbour] = ',end='')
-            print(distance[neighbour])
-            print('distance[node] * graph[node][neighbour] = ', end='')
-            print(distance[node] * graph[node][neighbour])
-            assert math.log10(distance[neighbour]) <= math.log10(distance[node]) + math.log10(graph[node][neighbour]), "Negative weight cycle."
+    # for node in graph:
+    #     for neighbour in graph[node]:
+    #         print("node = ", end='')
+    #         print(node)
+    #         print("neighbour", end='')
+    #         print(neighbour)
+    #         print('distance[neighbour] = ',end='')
+    #         print(distance[neighbour])
+    #         print('distance[node] * graph[node][neighbour] = ', end='')
+    #         print(distance[node] * graph[node][neighbour])
+            # assert math.log10(distance[neighbour]) <= math.log10(distance[node]) + math.log10(graph[node][neighbour]), "Negative weight cycle."
 
     return distance, predecessor
 
