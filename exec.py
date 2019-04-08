@@ -348,6 +348,8 @@ def generateequivalentpricelist(p, base, graph):
     for cur in p:
         if cur==base:
             continue
+        print('Cur = ', end='')
+        print(cur)
         tradetimes = 0   # initialize variable
         rate = 1         # initialize variable
         tradestring= cur # initialize variable
