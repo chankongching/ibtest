@@ -28,35 +28,37 @@ def generateGraph():
         # print(json.loads(r.get(key)))
         # Get pair name, bid/ask price and volume then store into bellman_ford readable graph
         pairname = key.decode("utf-8").split('DEPTH',1)[0]
-        valuedump = json.loads(r.get(key))
-        key1 = pairname[:3]
-        key2 = pairname[-3:]
-        # Init Json item if it doesnt exist
-        if not graph_bidprice.get(key1):
-            graph_bidprice[key1] = {}
-        if not graph_bidprice.get(key2):
-            graph_bidprice[key2] = {}
-        if not graph_bidprice_inverse.get(key1):
-            graph_bidprice_inverse[key1] = {}
-        if not graph_bidprice_inverse.get(key2):
-            graph_bidprice_inverse[key2] = {}
-        if not graph_volume.get(key1):
-            graph_volume[key1] = {}
-        if not graph_volume.get(key2):
-            graph_volume[key2] = {}
-        askprice = valuedump['asks'][0][0]
-        bidprice = valuedump['bids'][0][0]
-        volume1 = valuedump['bids'][0][1]
-        volume2 = valuedump['asks'][0][1]
-        # Store value into corresponding position
-        # Say, HKDJPY need to be saved into {'HKD':{'JPY':PRICE},'JPY':{'HKD':PRICE}}
-        graph_bidprice[key1].update({key2:(float(bidprice))})
-        graph_bidprice[key2].update({key1:(1/float(askprice))})
-        # Use inverse to get shortese path
-        graph_bidprice_inverse[key1].update({key2:(1/float(bidprice))})
-        graph_bidprice_inverse[key2].update({key1:(float(askprice))})
-        graph_volume[key1].update({key2:volume1})
-        graph_volume[key2].update({key1:volume2})
+        value = r.get(key)
+        if value is not None:
+            valuedump = json.loads(value)
+            key1 = pairname[:3]
+            key2 = pairname[-3:]
+            # Init Json item if it doesnt exist
+            if not graph_bidprice.get(key1):
+                graph_bidprice[key1] = {}
+            if not graph_bidprice.get(key2):
+                graph_bidprice[key2] = {}
+            if not graph_bidprice_inverse.get(key1):
+                graph_bidprice_inverse[key1] = {}
+            if not graph_bidprice_inverse.get(key2):
+                graph_bidprice_inverse[key2] = {}
+            if not graph_volume.get(key1):
+                graph_volume[key1] = {}
+            if not graph_volume.get(key2):
+                graph_volume[key2] = {}
+            askprice = valuedump['asks'][0][0]
+            bidprice = valuedump['bids'][0][0]
+            volume1 = valuedump['bids'][0][1]
+            volume2 = valuedump['asks'][0][1]
+            # Store value into corresponding position
+            # Say, HKDJPY need to be saved into {'HKD':{'JPY':PRICE},'JPY':{'HKD':PRICE}}
+            graph_bidprice[key1].update({key2:(float(bidprice))})
+            graph_bidprice[key2].update({key1:(1/float(askprice))})
+            # Use inverse to get shortese path
+            graph_bidprice_inverse[key1].update({key2:(1/float(bidprice))})
+            graph_bidprice_inverse[key2].update({key1:(float(askprice))})
+            graph_volume[key1].update({key2:volume1})
+            graph_volume[key2].update({key1:volume2})
     return graph_bidprice, graph_bidprice_inverse, graph_volume
 # graph_bidprice sample format
 # {
@@ -467,7 +469,7 @@ def findtradableprice(pricelist, base, graph):
             key1=items["tradestring"][:3]
             key2=items["tradestring"][-3:]
             if graph[key2].get(key1):
-                if isworth(float(1/graph[key2][key1])*(1 + (items["tradetimes"]+1)*8/10000),items["rate"]):
+                if isworth(float(1/graph[key2][key1])*(1 + (items["tradetimes"]+1)*2/100000),items["rate"]):
                     order[count] = {
                         'tradepair': key1 + ':' + key2,
                         'tradestring': items["tradestring"],
@@ -513,7 +515,7 @@ def looporder(graph_bidprice,graph_volume):
             for base in graph_bidprice[cur]:
                 if base != tar:
                     if checkKey(graph_bidprice[base],tar):
-                        if graph_bidprice[cur][base]*graph_bidprice[base][tar]/(1 + 0.0024) > 1/graph_bidprice[tar][cur]:
+                        if graph_bidprice[cur][base]*graph_bidprice[base][tar]/(1 + 6/100000) > 1/graph_bidprice[tar][cur]:
                             if graph_volume[cur][base] < graph_volume[base][tar]:
                                 volume = graph_volume[cur][base]
                             else:
