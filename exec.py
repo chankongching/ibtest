@@ -15,11 +15,14 @@ import sys
 
 # Define redisStarter
 r = redis.StrictRedis(host='localhost', port=6379)                          # Connect to local Redis instance
-graph_bidprice = {}
-graph_bidprice_inverse = {}
-graph_volume = {}
+# graph_bidprice = {}
+# graph_bidprice_inverse = {}
+# graph_volume = {}
 
 def generateGraph():
+    graph_bidprice = {}
+    graph_bidprice_inverse = {}
+    graph_volume = {}
     # print("Begin table construction")
     keys = r.keys('*')
     for key in keys:
