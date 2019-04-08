@@ -546,7 +546,7 @@ def wrapper():
         f = open('orders_pricecheck.txt','a')
         # Print result for checking
         f.write(str("graph_bidprice = " + '\n'))
-        f.write(str(json.dumps(orders,indent=4, sort_keys=True) + '\n'))
+        f.write(str(json.dumps(graph_bidprice,indent=4, sort_keys=True) + '\n'))
         f.close()
 
     # Start BellmanFord
