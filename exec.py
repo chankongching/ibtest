@@ -546,16 +546,16 @@ def wrapper():
         f = open('orders_loop.txt','a')
         # f.write('Test message' + str(datetime.datetime.now()))
         f.write(str(datetime.datetime.now()) + '!' + json.dumps(orders) + '\n')
-        f.close()
-        f = open('orders_loop_pricecheck.txt','a')
-        # Print result for checking
-        f.write(str("graph_bidprice = " + '\n'))
-        f.write(str(json.dumps(graph_bidprice,indent=4, sort_keys=True) + '\n'))
-        f.write(str("graph_bidprice_inverse = " + '\n'))
-        f.write(str(json.dumps(graph_bidprice_inverse,indent=4, sort_keys=True) + '\n'))
-        f.write(str("graph_volumn = " + '\n'))
-        f.write(str(json.dumps(graph_volumn,indent=4, sort_keys=True) + '\n'))
-        f.close()
+        # f.close()
+        # f = open('orders_loop_pricecheck.txt','a')
+        # # Print result for checking
+        # f.write(str("graph_bidprice = " + '\n'))
+        # f.write(str(json.dumps(graph_bidprice,indent=4, sort_keys=True) + '\n'))
+        # f.write(str("graph_bidprice_inverse = " + '\n'))
+        # f.write(str(json.dumps(graph_bidprice_inverse,indent=4, sort_keys=True) + '\n'))
+        # f.write(str("graph_volumn = " + '\n'))
+        # f.write(str(json.dumps(graph_volumn,indent=4, sort_keys=True) + '\n'))
+        # f.close()
 
     # Start BellmanFord
     orders = {}
@@ -1072,7 +1072,6 @@ if __name__ == '__main__':
         }
     }
 
-
     graph_volume = {
         "AUD": {
             "CAD": "1000000",
@@ -1332,6 +1331,10 @@ if __name__ == '__main__':
     # push into loop to find equivalentprices
     for cur in nested_p:
         equivalentprice = generateequivalentpricelist(nested_p[cur], cur, graph_bidprice)
+        print("base = ", end='')
+        print(cur)
+        print("Equivalentprice List", end='')
+        print(equivalentprice)
         order = findtradableprice(equivalentprice, cur, graph_bidprice)
         if len(order) != 0:
             # Push order generated in each iteration into orders array
