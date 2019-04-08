@@ -1333,7 +1333,7 @@ if __name__ == '__main__':
     #     }
     # }
 
-    
+
     print("graph_bidprice = ")
     print(json.dumps(graph_bidprice,indent=4, sort_keys=True))
 
@@ -1347,7 +1347,7 @@ if __name__ == '__main__':
       f.close()
     orders = {}
     # Use inverse to calculate nodes graph_bidprice_inverse
-    nested_d, nested_p = generatebellmanford(graph_bidprice_inverse)
+    nested_d, nested_p = generatebellmanford(graph_bidprice_minuslog)
     print("nested_d = ")
     print(json.dumps(nested_d,indent=4, sort_keys=True))
     print("nested_p = ")
