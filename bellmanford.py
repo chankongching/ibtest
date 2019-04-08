@@ -3,7 +3,7 @@ def bellman_ford(graph, source):
     distance, predecessor = dict(), dict()
     for node in graph:
         distance[node], predecessor[node] = float('inf'), None
-    distance[source] = 0
+    distance[source] = 1
 
     # Step 2: Relax the edges
     for _ in range(len(graph) - 1):
