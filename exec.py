@@ -324,7 +324,8 @@ def generatebellmanford(graph):
     for base in graph:
         # print('generatebellmanford: run base = ' + base)
         # base = 'HKD'
-        d,p = bellmanford.bellman_ford(graph, base)
+        d,p = bellman.bellman_ford(graph,base)
+#        d,p = bellmanford.bellman_ford(graph, base)
         # print('d of ' + base + ' = ')
         # print(json.dumps(d,indent=4, sort_keys=True))
 
