@@ -1,8 +1,12 @@
-import exec
+# For testing purpose
+import os
+import datetime
+import sys
+import json
 
-graph_bidprice, graph_bidprice_inverse, graph_volume = exec.generateGraph()
-# Use inverse to calculate nodes graph_bidprice_inverse
-nested_d, nested_p = exec.generatebellmanford(graph_bidprice)
-exec.findtradablevolume()
-print('graph_volume = ')
-print(graph_volume)
+orders = {}
+
+f = open('orders_test.txt','a')
+# f.write('Test message' + str(datetime.datetime.now()))
+f.write(str(datetime.datetime.now()) + '!' + json.dumps(orders) + '\n')
+f.close()
