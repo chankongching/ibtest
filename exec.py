@@ -1325,6 +1325,11 @@ if __name__ == '__main__':
     #     }
     # }
 
+    
+    print("graph_bidprice = ")
+    print(json.dumps(graph_bidprice,indent=4, sort_keys=True))
+
+
     orders = looporder(graph_bidprice,graph_volume)
     # Run for loop checking
     if len(orders) != 0:
