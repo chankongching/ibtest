@@ -1335,8 +1335,8 @@ if __name__ == '__main__':
     # }
 
 
-    print("graph_bidprice = ")
-    print(json.dumps(graph_bidprice,indent=4, sort_keys=True))
+    # print("graph_bidprice = ")
+    # print(json.dumps(graph_bidprice,indent=4, sort_keys=True))
 
 
     orders = looporder(graph_bidprice,graph_volume)
@@ -1349,18 +1349,18 @@ if __name__ == '__main__':
     orders = {}
     # Use inverse to calculate nodes graph_bidprice_inverse
     nested_d, nested_p = generatebellmanford(graph_bidprice_minuslog)
-    print("nested_d = ")
-    print(json.dumps(nested_d,indent=4, sort_keys=True))
-    print("nested_p = ")
-    print(json.dumps(nested_p,indent=4, sort_keys=True))
+    # print("nested_d = ")
+    # print(json.dumps(nested_d,indent=4, sort_keys=True))
+    # print("nested_p = ")
+    # print(json.dumps(nested_p,indent=4, sort_keys=True))
     # After generated nested bellmanford destination and predecessor json,
     # push into loop to find equivalentprices
     for cur in nested_p:
         equivalentprice = generateequivalentpricelist(nested_p[cur], cur, graph_bidprice)
-        print("base = ", end='')
-        print(cur)
-        print("Equivalentprice List", end='')
-        print(equivalentprice)
+        # print("base = ", end='')
+        # print(cur)
+        # print("Equivalentprice List", end='')
+        # print(equivalentprice)
         order = findtradableprice(equivalentprice, cur, graph_bidprice)
         if len(order) != 0:
             # Push order generated in each iteration into orders array
