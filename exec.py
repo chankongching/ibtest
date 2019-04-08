@@ -579,6 +579,7 @@ def wrapper():
         f.write(str("graph_volumn = " + '\n'))
         f.write(str(json.dumps(graph_volumn,indent=4, sort_keys=True) + '\n'))
         f.close()
+        break
 
     # Start BellmanFord
     orders = {}
