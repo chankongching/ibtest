@@ -483,7 +483,8 @@ def findtradableprice(pricelist, base, graph):
     return order
 
 def isworth(reverseprice, equivalentprice):
-    return reverseprice < equivalentprice
+    if reverseprice != -1:
+        return reverseprice < equivalentprice
 
 def findtradablevolume(tradestring, graph_volume):
     # print(json.dumps(graph_volume,indent=4, sort_keys=True))
@@ -518,7 +519,7 @@ def looporder(graph_bidprice,graph_volume):
             for base in graph_bidprice[cur]:
                 if base != tar:
                     if checkKey(graph_bidprice[base],tar):
-                        if graph_bidprice[cur][base]*graph_bidprice[base][tar]/(1 + 6/100000) > 1/graph_bidprice[tar][cur]:
+                        if (graph_bidprice[tar][cur] != -1)&& (graph_bidprice[cur][base]*graph_bidprice[base][tar]/(1 + 6/100000) > 1/graph_bidprice[tar][cur]):
                             if graph_volume[cur][base] < graph_volume[base][tar]:
                                 volume = graph_volume[cur][base]
                             else:
