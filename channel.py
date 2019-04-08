@@ -24,21 +24,21 @@ def RedisCheck():
             message = p.get_message()                                               # Checks for message
             if message:
                 command = message['data']                                           # Get data from message
-                print(command)
+                # print(command)
                 thread = Thread(target = exec.wrapper)
                 thread.start()
 #                exec.wrapper()
 #                if command == b'START':                                             # Checks for START message
 #                    PAUSE = False                                                   # Breaks loop
-            else:
-                print("No update on IB Channel")
+            # else:
+            #     print("No update on IB Channel")
             time.sleep(0.00000001)
 
         print("Permission to start...")
 
     except Exception as e:
         print("!!!!!!!!!! EXCEPTION !!!!!!!!!")
-        print(str(e))
+        print(str(datetime.datetime.now()) + ': ' + str(e))
         print(traceback.format_exc())
 
 
