@@ -16,7 +16,7 @@ def bellman_ford(graph, source):
     # Step 3: Check for negative weight cycles
     for node in graph:
         for neighbour in graph[node]:
-            assert distance[neighbour] <= distance[node] + graph[node][neighbour], "Negative weight cycle."
+            assert distance[neighbour] <= distance[node] * graph[node][neighbour], "Negative weight cycle."
 
     return distance, predecessor
 
