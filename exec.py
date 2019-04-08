@@ -1314,6 +1314,14 @@ if __name__ == '__main__':
         }
     }
 
+    orders = looporder(graph_bidprice,graph_volume)
+    # Run for loop checking
+    if len(orders) != 0:
+      f = open('orders_looptest.txt','a')
+      # f.write('Test message' + str(datetime.datetime.now()))
+      f.write(str(datetime.datetime.now()) + '!' + json.dumps(orders) + '\n')
+      f.close()
+    orders = {}
     # Use inverse to calculate nodes graph_bidprice_inverse
     nested_d, nested_p = generatebellmanford(graph_bidprice_inverse)
     # After generated nested bellmanford destination and predecessor json,
