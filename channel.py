@@ -25,8 +25,8 @@ def RedisCheck():
             if message:
                 command = message['data']                                           # Get data from message
                 print(command)
-                # thread = Thread(target = exec.wrapper)
-                # thread.start()
+                thread = Thread(target = exec.wrapper)
+                thread.start()
                 exec.wrapper()
 #                if command == b'START':                                             # Checks for START message
 #                    PAUSE = False                                                   # Breaks loop
