@@ -1,7 +1,7 @@
 import json
 def checkinfinity(p, source):
-    # print("checking p = ")
-    # print(json.dumps(p,indent=4, sort_keys=True))
+    print("checking p = ")
+    print(json.dumps(p,indent=4, sort_keys=True))
     check = False
     checkstring = ""
     for node in p:
@@ -51,6 +51,7 @@ def bellman_ford(graph, source):
                         old_predecessor = predecessor
                         distance[neighbour], predecessor[neighbour] = distance[node] + graph[node][neighbour], node
                     else:
+                        print('infinity activated')
                         return distance, old_predecessor
                     # # First copy the whole distance
                     # distance_check = distance
