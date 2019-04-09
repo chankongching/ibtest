@@ -58,10 +58,14 @@ def bellman_ford(graph, source):
                         timerun +=1
                         print("predecessor = ", end = '')
                         print(json.dumps(predecessor,indent=4, sort_keys=True))
+                        print('Timerun = ', end='')
+                        print(timerun)
                         old_predecessor[timerun] = predecessor
+                        print("old_predecessor[timerun] = ", end = '')
+                        print(json.dumps(old_predecessor[timerun],indent=4, sort_keys=True))
                         distance[neighbour], predecessor[neighbour] = distance[node] + graph[node][neighbour], node
                     else:
-                        print(json.dumps(old_predecessor,indent=4, sort_keys=True))
+                        # print(json.dumps(old_predecessor,indent=4, sort_keys=True))
                         print('infinity activated')
                         sys.exit(1)
                         return distance, old_predecessor[timerun-2]
