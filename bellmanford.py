@@ -1,4 +1,24 @@
 import json
+def checkinfinity(p, source):
+    check = false
+    checkstring = ""
+    for node in p:
+        if node == source:
+            continue
+        checkstring = node
+        iterator = node
+        while True:
+            checkstring = checkstring + ':' + p[iterator]
+            iterator = p[iterator]
+            if iterator == source:
+                break
+            for checking in checkstring[:-4].split(":")
+                if iterator == checking:
+                    check=True
+                    break
+
+
+
 def bellman_ford(graph, source):
     # print("Source = ", end="")
     # print(source)
@@ -7,8 +27,8 @@ def bellman_ford(graph, source):
     for node in graph:
         distance[node], predecessor[node] = float('inf'), None
         if node != source and graph[source].get(node):
-            print('node = ')
-            print(node)
+            # print('node = ')
+            # print(node)
             distance[node], predecessor[node] = graph[source][node], source
 
     distance[source] = 0
@@ -20,7 +40,11 @@ def bellman_ford(graph, source):
             for neighbour in graph[node]:
                 # If the distance between the node and the neighbour is lower than the current, store it
                 if (neighbour != source) and (distance[neighbour] > distance[node] + graph[node][neighbour]):
-                    distance[neighbour], predecessor[neighbour] = distance[node] + graph[node][neighbour], node
+                    check_p = predecessor
+                    if not checkinfinity(check_p, source):
+                        distance[neighbour], predecessor[neighbour] = distance[node] + graph[node][neighbour], node
+                    else:
+                        return distance, predecessor
                     # # First copy the whole distance
                     # distance_check = distance
                     # check = True
@@ -35,15 +59,15 @@ def bellman_ford(graph, source):
                     # print('Timerun = ', end='')
                     # print(timerun)
                     # timerun +=1
-                    print("predecessor = ", end='')
-                    print(json.dumps(predecessor,indent=4, sort_keys=True))
-                    print("distance = ", end='')
-                    print(json.dumps(distance,indent=4, sort_keys=True))
-    print("FINISHED!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
-    print("predecessor = ", end='')
-    print(json.dumps(predecessor,indent=4, sort_keys=True))
-    print("distance = ", end='')
-    print(json.dumps(distance,indent=4, sort_keys=True))
+    #                 print("predecessor = ", end='')
+    #                 print(json.dumps(predecessor,indent=4, sort_keys=True))
+    #                 print("distance = ", end='')
+    #                 print(json.dumps(distance,indent=4, sort_keys=True))
+    # print("FINISHED!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
+    # print("predecessor = ", end='')
+    # print(json.dumps(predecessor,indent=4, sort_keys=True))
+    # print("distance = ", end='')
+    # print(json.dumps(distance,indent=4, sort_keys=True))
     # Step 3: Check for negative weight cycles
     for node in graph:
         for neighbour in graph[node]:
