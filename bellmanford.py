@@ -40,6 +40,10 @@ def bellman_ford(graph, source):
                     # print("distance = ", end='')
                     # print(json.dumps(distance,indent=4, sort_keys=True))
 
+    print("predecessor = ", end='')
+    print(json.dumps(predecessor,indent=4, sort_keys=True))
+    print("distance = ", end='')
+    print(json.dumps(distance,indent=4, sort_keys=True))
     # Step 3: Check for negative weight cycles
     for node in graph:
         for neighbour in graph[node]:
