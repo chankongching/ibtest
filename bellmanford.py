@@ -23,24 +23,25 @@ def bellman_ford(graph, source):
     # Step 3: Check for negative weight cycles
     for node in graph:
         for neighbour in graph[node]:
-            # print("node = ", end='')
-            # print(node)
-            # print("neighbour", end='')
-            # print(neighbour)
-            # print('distance[neighbour] = ',end='')
-            # print(distance[neighbour])
-            # print('distance[node] + graph[node][neighbour] = ', end='')
-            # print(distance[node] + graph[node][neighbour])
-            # print('distance[node] = ', end='')
-            # print(distance[node])
-            # print('graph[node][neighbour] = ', end='')
-            # print(graph[node][neighbour])
 #            print("graph = ", end='')
 #            print(json.dumps(graph,indent=4, sort_keys=True))
 #            print("distance = ", end='')
 #            print(json.dumps(distance,indent=4, sort_keys=True))
 #            print("predecessor = ", end='')
 #            print(json.dumps(predecessor,indent=4, sort_keys=True))
+            if distance[neighbour] <= distance[node] + graph[node][neighbour]:
+              print("node = ", end='')
+              print(node)
+              print("neighbour", end='')
+              print(neighbour)
+              print('distance[neighbour] = ',end='')
+              print(distance[neighbour])
+              print('distance[node] + graph[node][neighbour] = ', end='')
+              print(distance[node] + graph[node][neighbour])
+              print('distance[node] = ', end='')
+              print(distance[node])
+              print('graph[node][neighbour] = ', end='')
+              print(graph[node][neighbour])
             if (neighbour != source):
               assert distance[neighbour] <= distance[node] + graph[node][neighbour], "Negative weight cycle."
 
