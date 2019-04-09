@@ -69,6 +69,8 @@ def bellman_ford(graph, source):
                         print('infinity activated')
                         print("predecessor = ", end = '')
                         print(json.dumps(predecessor,indent=4, sort_keys=True))
+                        print('Timerun = ', end='')
+                        print(timerun)
                         print("old_predecessor[timerun] = ", end = '')
                         print(json.dumps(old_predecessor[timerun],indent=4, sort_keys=True))
                         sys.exit(1)
