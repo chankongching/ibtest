@@ -346,17 +346,17 @@ def removedirectprede(p, base):
 
 def generateequivalentpricelist(p, base, graph):
     result = {}
-    print("p = ", end='')
-    print(p)
-    print("base = ", end="")
-    print(json.dumps(base,indent=4, sort_keys=True))
-    print("graph = ", end="")
-    print(json.dumps(graph,indent=4, sort_keys=True))
+    # print("p = ", end='')
+    # print(p)
+    # print("base = ", end="")
+    # print(json.dumps(base,indent=4, sort_keys=True))
+    # print("graph = ", end="")
+    # print(json.dumps(graph,indent=4, sort_keys=True))
     for cur in p:
         if cur==base:
             continue
-        print('Cur = ', end='')
-        print(cur)
+        # print('Cur = ', end='')
+        # print(cur)
         tradetimes = 0   # initialize variable
         rate = 1         # initialize variable
         tradestring= cur # initialize variable
@@ -489,10 +489,10 @@ def findtradableprice(pricelist, base, graph):
             key1=items["tradestring"][:3]
             key2=items["tradestring"][-3:]
             if graph[key2].get(key1):
-                print("tradestring",end='')
-                print(items["tradestring"])
-                print("Equivalentprice = ",end='')
-                print(items["rate"])
+                # print("tradestring",end='')
+                # print(items["tradestring"])
+                # print("Equivalentprice = ",end='')
+                # print(items["rate"])
                 if isworth(float(1/graph[key2][key1])*(1 + (items["tradetimes"]+1)*2/100000),items["rate"]):
                     order[count] = {
                         'tradepair': key1 + ':' + key2,
