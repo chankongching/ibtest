@@ -7,18 +7,22 @@ def bellman_ford(graph, source):
     for node in graph:
         distance[node], predecessor[node] = float('inf'), None
     distance[source] = 0
+    timerun = 0
 
     # Step 2: Relax the edges
     for _ in range(len(graph) - 1):
         for node in graph:
             for neighbour in graph[node]:
                 # If the distance between the node and the neighbour is lower than the current, store it
-                if (distance[neighbour] > distance[node] + graph[node][neighbour]):
+                if (neighbour != source) and (distance[neighbour] > distance[node] + graph[node][neighbour]):
                     distance[neighbour], predecessor[neighbour] = distance[node] + graph[node][neighbour], node
-                    # print("predecessor = ", end='')
-                    # print(json.dumps(predecessor,indent=4, sort_keys=True))
-                    # print("distance = ", end='')
-                    # print(json.dumps(distance,indent=4, sort_keys=True))
+                    print('Timerun = ', end='')
+                    print(timerun)
+                    timerun +=1
+                    print("predecessor = ", end='')
+                    print(json.dumps(predecessor,indent=4, sort_keys=True))
+                    print("distance = ", end='')
+                    print(json.dumps(distance,indent=4, sort_keys=True))
 
     # Step 3: Check for negative weight cycles
     for node in graph:
