@@ -105,8 +105,8 @@ def removedirectprede(p, base):
 
 def generateequivalentpricelist(p, base, graph):
     result = {}
-    print("p = ", end='')
-    print(p)
+    # print("p = ", end='')
+    # print(p)
     # print("base = ", end="")
     # print(json.dumps(base,indent=4, sort_keys=True))
     # print("graph = ", end="")
@@ -230,7 +230,7 @@ def wrapper():
         f.write(str(json.dumps(graph_volume,indent=4, sort_keys=True) + '\n'))
         f.close()
         # sys.exit()
-        os._exit(1)
+        # os._exit(1)
 
     # Start BellmanFord
     orders = {}
