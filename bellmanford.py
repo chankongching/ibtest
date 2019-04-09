@@ -53,9 +53,8 @@ def bellman_ford(graph, source):
 
                     if not checkinfinity(predecessor, source):
                         distance[neighbour], predecessor[neighbour] = distance[node] + graph[node][neighbour], node
-                        if predecessor[neighbour] != node:
-                            old_predecessor[timerun] = predecessor
-                            timerun += 1
+                        old_predecessor[timerun] = predecessor
+                        timerun += 1
                     else:
                         print('infinity activated')
                         print(json.dumps(old_predecessor,indent=4, sort_keys=True))
