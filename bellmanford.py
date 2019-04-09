@@ -47,6 +47,7 @@ def bellman_ford(graph, source):
                     if not checkinfinity(check_p, source):
                         distance[neighbour], predecessor[neighbour] = distance[node] + graph[node][neighbour], node
                     else:
+                        print("checkinfinity is activated")
                         return distance, predecessor
                     # # First copy the whole distance
                     # distance_check = distance
