@@ -37,7 +37,7 @@ def bellman_ford(graph, source):
             distance[node], predecessor[node] = graph[source][node], source
 
     distance[source] = 0
-    timerun = 0
+    # timerun = 0
     old_predecessor = {}
 
     # Step 2: Relax the edges
@@ -52,13 +52,13 @@ def bellman_ford(graph, source):
                     # print(json.dumps(predecessor,indent=4, sort_keys=True))
 
                     if not checkinfinity(predecessor, source):
+                        if predecessor[neighbour] != node:
+                            old_predecessor = predecessor
                         distance[neighbour], predecessor[neighbour] = distance[node] + graph[node][neighbour], node
-                        old_predecessor[timerun] = predecessor
-                        timerun += 1
                     else:
                         print('infinity activated')
                         print(json.dumps(old_predecessor,indent=4, sort_keys=True))
-                        return distance, old_predecessor[timerun-1]
+                        return distance, old_predecessor
                     # # First copy the whole distance
                     # distance_check = distance
                     # check = True
