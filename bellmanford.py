@@ -52,7 +52,7 @@ def bellman_ford(graph, source):
                     # print(json.dumps(old_predecessor,indent=4, sort_keys=True))
                     # print("predecessor = ", end = '')
                     # print(json.dumps(predecessor,indent=4, sort_keys=True))
-                    if predecessor[neighbour] != node:
+                    if predecessor[neighbour] == node:
                         check = True
 
                     if not checkinfinity(predecessor, source):
