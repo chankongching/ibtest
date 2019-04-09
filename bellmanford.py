@@ -13,38 +13,18 @@ def bellman_ford(graph, source):
         for node in graph:
             for neighbour in graph[node]:
                 # If the distance between the node and the neighbour is lower than the current, store it
-                if (distance[neighbour] >= distance[node] + graph[node][neighbour]) and (neighbour != source):
+                if (distance[neighbour] > distance[node] + graph[node][neighbour]):
                     distance[neighbour], predecessor[neighbour] = distance[node] + graph[node][neighbour], node
-                    # print("predecessor = ", end='')
-                    # print(json.dumps(predecessor,indent=4, sort_keys=True))
-                    # print("distance = ", end='')
-                    # print(json.dumps(distance,indent=4, sort_keys=True))
+                    print("predecessor = ", end='')
+                    print(json.dumps(predecessor,indent=4, sort_keys=True))
+                    print("distance = ", end='')
+                    print(json.dumps(distance,indent=4, sort_keys=True))
 
-    # # Step 3: Check for negative weight cycles
-    # for node in graph:
-    #     for neighbour in graph[node]:
-    #
-    #         if distance[neighbour] < distance[node] + graph[node][neighbour]:
-    #           print("node = ", end='')
-    #           print(node)
-    #           print("neighbour", end='')
-    #           print(neighbour)
-    #           print('distance[neighbour] = ',end='')
-    #           print(distance[neighbour])
-    #           print('distance[node] + graph[node][neighbour] = ', end='')
-    #           print(distance[node] + graph[node][neighbour])
-    #           print('distance[node] = ', end='')
-    #           print(distance[node])
-    #           print('graph[node][neighbour] = ', end='')
-    #           print(graph[node][neighbour])
-    #           print("graph = ", end='')
-    #           print(json.dumps(graph,indent=4, sort_keys=True))
-    #           print("distance = ", end='')
-    #           print(json.dumps(distance,indent=4, sort_keys=True))
-    #           print("predecessor = ", end='')
-    #           print(json.dumps(predecessor,indent=4, sort_keys=True))
-    #         if (neighbour != source):
-    #           assert distance[neighbour] < distance[node] + graph[node][neighbour], "Negative weight cycle."
+    # Step 3: Check for negative weight cycles
+    for node in graph:
+        for neighbour in graph[node]:
+            if (neighbour != source):
+              assert distance[neighbour] <= distance[node] + graph[node][neighbour], "Negative weight cycle."
 
     return distance, predecessor
 
