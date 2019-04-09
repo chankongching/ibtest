@@ -61,7 +61,7 @@ def bellman_ford(graph, source):
                         return distance, predecessor
 
                     print("checking p = ")
-                    print(json.dumps(p,indent=4, sort_keys=True))
+                    print(json.dumps(predecessor,indent=4, sort_keys=True))
                     timerun +=1
                     print('Timerun = ', end='')
                     print(timerun)
