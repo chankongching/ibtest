@@ -326,8 +326,10 @@ def generatebellmanford(graph):
         # base = 'HKD'
 #        d,p = bellman.bellman_ford(graph,base)
         d,p = bellmanford.bellman_ford(graph, base)
-        # print('d of ' + base + ' = ')
-        # print(json.dumps(d,indent=4, sort_keys=True))
+        print('d of ' + base + ' = ')
+        print(json.dumps(d,indent=4, sort_keys=True))
+        print('p of ' + base + ' = ')
+        print(json.dumps(p,indent=4, sort_keys=True))
 
         nested_d[base] = d
         nested_p[base] = p
@@ -370,115 +372,6 @@ def generateequivalentpricelist(p, base, graph):
             iterator = p[iterator]
         result[cur] = { "rate": rate, "tradetimes": tradetimes, "tradestring": tradestring }
     return result
-
-# Sample result of equivalent pricelist
-# {
-#     "AUD": {
-#         "rate": 0.1801727135632217,
-#         "tradestring": "HKD:AUD",
-#         "tradetimes": 1
-#     },
-#     "CAD": {
-#         "rate": 0.169516471260772,
-#         "tradestring": "HKD:CNH:CAD",
-#         "tradetimes": 2
-#     },
-#     "CHF": {
-#         "rate": 0.12788298863290348,
-#         "tradestring": "HKD:AUD:CHF",
-#         "tradetimes": 2
-#     },
-#     "CNH": {
-#         "rate": 0.8555564111119667,
-#         "tradestring": "HKD:CNH",
-#         "tradetimes": 1
-#     },
-#     "CZK": {
-#         "rate": 2.886883984488461,
-#         "tradestring": "HKD:USD:CZK",
-#         "tradetimes": 2
-#     },
-#     "DKK": {
-#         "rate": 0.8392626923018126,
-#         "tradestring": "HKD:USD:DKK",
-#         "tradetimes": 2
-#     },
-#     "EUR": {
-#         "rate": 0.11248328217218716,
-#         "tradestring": "HKD:EUR",
-#         "tradetimes": 1
-#     },
-#     "GBP": {
-#         "rate": 0.09609101741169235,
-#         "tradestring": "HKD:GBP",
-#         "tradetimes": 1
-#     },
-#     "HUF": {
-#         "rate": 35.39686030668999,
-#         "tradestring": "HKD:AUD:CHF:HUF",
-#         "tradetimes": 3
-#     },
-#     "ILS": {
-#         "rate": 0.45894416442356256,
-#         "tradestring": "HKD:EUR:ILS",
-#         "tradetimes": 2
-#     },
-#     "JPY": {
-#         "rate": 14.198,
-#         "tradestring": "HKD:JPY",
-#         "tradetimes": 1
-#     },
-#     "KRW": {
-#         "rate": 145.03331383960835,
-#         "tradestring": "HKD:JPY:KRW",
-#         "tradetimes": 2
-#     },
-#     "MXN": {
-#         "rate": 2.459511943305461,
-#         "tradestring": "HKD:JPY:MXN",
-#         "tradetimes": 2
-#     },
-#     "NOK": {
-#         "rate": 1.0921325414923488,
-#         "tradestring": "HKD:USD:DKK:NOK",
-#         "tradetimes": 3
-#     },
-#     "NZD": {
-#         "rate": 0.18598508530277122,
-#         "tradestring": "HKD:AUD:NZD",
-#         "tradetimes": 2
-#     },
-#     "PLN": {
-#         "rate": 0.48369097181526804,
-#         "tradestring": "HKD:USD:PLN",
-#         "tradetimes": 2
-#     },
-#     "RUB": {
-#         "rate": 8.339815369940641,
-#         "tradestring": "HKD:EUR:RUB",
-#         "tradetimes": 2
-#     },
-#     "SEK": {
-#         "rate": 1.1850389215301593,
-#         "tradestring": "HKD:USD:DKK:SEK",
-#         "tradetimes": 3
-#     },
-#     "SGD": {
-#         "rate": 0.1725183418182631,
-#         "tradestring": "HKD:CNH:SGD",
-#         "tradetimes": 2
-#     },
-#     "USD": {
-#         "rate": 0.12739437732176254,
-#         "tradestring": "HKD:USD",
-#         "tradetimes": 1
-#     },
-#     "ZAR": {
-#         "rate": 1.8399345612704336,
-#         "tradestring": "HKD:AUD:ZAR",
-#         "tradetimes": 2
-#     }
-# }
 
 def findtradableprice(pricelist, base, graph):
     order={}
