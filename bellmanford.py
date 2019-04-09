@@ -1,22 +1,26 @@
 import json
 def checkinfinity(p, source):
-    check = false
+    check = False
     checkstring = ""
     for node in p:
         if node == source:
             continue
         checkstring = node
         iterator = node
-        while True:
+        while True and p.get(iterator):
             checkstring = checkstring + ':' + p[iterator]
             iterator = p[iterator]
             if iterator == source:
                 break
-            for checking in checkstring[:-4].split(":")
+            print("checkstring = ", end = '')
+            print(checkstring)
+            print("checkstring[:-4]", end = '')
+            print(checkstring[:-4])
+            for checking in checkstring[:-4].split(":"):
                 if iterator == checking:
                     check=True
                     break
-
+    return check
 
 
 def bellman_ford(graph, source):
