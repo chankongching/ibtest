@@ -619,8 +619,7 @@ if __name__ == '__main__':
     count = 0;
     # graph_bidprice, graph_bidprice_minuslog, graph_bidprice_inverse, graph_volume = generateGraph()
     # Write sample data and direct test of functions
-    graph_bidprice = 
-    {
+    graph_bidprice = {
         "AUD": {
             "CAD": 0.9484,
             "CHF": 0.71203,
@@ -848,8 +847,7 @@ if __name__ == '__main__':
             "USD": 0.07100255609201932
         }
     }
-    graph_bidprice_inverse =
-    {
+    graph_bidprice_inverse = {
         "AUD": {
             "CAD": 1.054407423028258,
             "CHF": 1.4044352063817536,
@@ -1077,8 +1075,7 @@ if __name__ == '__main__':
             "USD": 14.084
         }
     }
-    graph_bidprice_minuslog =
-    {
+    graph_bidprice_minuslog = {
         "AUD": {
             "CAD": 0.023008454693849448,
             "CHF": 0.14750170782384453,
@@ -1306,8 +1303,7 @@ if __name__ == '__main__':
             "USD": 1.1487260163981465
         }
     }
-    graph_volume =
-    {
+    graph_volume = {
         "AUD": {
             "CAD": "1000000",
             "CHF": "3000000",
