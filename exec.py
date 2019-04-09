@@ -326,10 +326,10 @@ def generatebellmanford(graph):
         # base = 'HKD'
 #        d,p = bellman.bellman_ford(graph,base)
         d,p = bellmanford.bellman_ford(graph, base)
-        print('d of ' + base + ' = ')
-        print(json.dumps(d,indent=4, sort_keys=True))
-        print('p of ' + base + ' = ')
-        print(json.dumps(p,indent=4, sort_keys=True))
+        # print('d of ' + base + ' = ')
+        # print(json.dumps(d,indent=4, sort_keys=True))
+        # print('p of ' + base + ' = ')
+        # print(json.dumps(p,indent=4, sort_keys=True))
 
         nested_d[base] = d
         nested_p[base] = p
@@ -350,8 +350,8 @@ def generateequivalentpricelist(p, base, graph):
     result = {}
     # print("p = ", end='')
     # print(p)
-    print("base = ", end="")
-    print(json.dumps(base,indent=4, sort_keys=True))
+    # print("base = ", end="")
+    # print(json.dumps(base,indent=4, sort_keys=True))
     # print("graph = ", end="")
     # print(json.dumps(graph,indent=4, sort_keys=True))
     for cur in p:
