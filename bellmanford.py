@@ -1,4 +1,5 @@
 import json
+import sys
 def checkinfinity(p, source):
     # print("checking p = ")
     # print(json.dumps(p,indent=4, sort_keys=True))
@@ -56,8 +57,9 @@ def bellman_ford(graph, source):
                     if not checkinfinity(predecessor, source):
                         distance[neighbour], predecessor[neighbour] = distance[node] + graph[node][neighbour], node
                     else:
-                        print(json.dumps(old_predecessor[timerun-2],indent=4, sort_keys=True))
+                        print(json.dumps(old_predecessor,indent=4, sort_keys=True))
                         print('infinity activated')
+                        sys.exit(1)
                         return distance, old_predecessor[timerun-2]
 
                     # print("checking p = ")
