@@ -15,20 +15,30 @@ def bellman_ford(graph, source):
             for neighbour in graph[node]:
                 # If the distance between the node and the neighbour is lower than the current, store it
                 if (neighbour != source) and (distance[neighbour] > distance[node] + graph[node][neighbour]):
-                    distance[neighbour], predecessor[neighbour] = distance[node] + graph[node][neighbour], node
-                    print('Timerun = ', end='')
-                    print(timerun)
-                    timerun +=1
-                    print("predecessor = ", end='')
-                    print(json.dumps(predecessor,indent=4, sort_keys=True))
-                    print("distance = ", end='')
-                    print(json.dumps(distance,indent=4, sort_keys=True))
+                    # First copy the whole distance
+                    distance_check = distance
+                    check = True
+                    for node in graph:
+                        for neighbour in graph[node]:
+                            if distance_check[neighbour] <= distance_check[node] + graph[node][neighbour]:
+                                check = False
+                    if(check):
+                        distance[neighbour], predecessor[neighbour] = distance[node] + graph[node][neighbour], node
+                    else:
+                        return distance, predecessor
+                    # print('Timerun = ', end='')
+                    # print(timerun)
+                    # timerun +=1
+                    # print("predecessor = ", end='')
+                    # print(json.dumps(predecessor,indent=4, sort_keys=True))
+                    # print("distance = ", end='')
+                    # print(json.dumps(distance,indent=4, sort_keys=True))
 
-    # Step 3: Check for negative weight cycles
-    for node in graph:
-        for neighbour in graph[node]:
-            if (neighbour != source):
-              assert distance[neighbour] <= distance[node] + graph[node][neighbour], "Negative weight cycle."
+    # # Step 3: Check for negative weight cycles
+    # for node in graph:
+    #     for neighbour in graph[node]:
+    #         if (neighbour != source):
+    #           assert distance[neighbour] <= distance[node] + graph[node][neighbour], "Negative weight cycle."
 
     return distance, predecessor
 
