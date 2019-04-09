@@ -67,6 +67,8 @@ def bellman_ford(graph, source):
                     else:
                         # print(json.dumps(old_predecessor,indent=4, sort_keys=True))
                         print('infinity activated')
+                        print("predecessor = ", end = '')
+                        print(json.dumps(predecessor,indent=4, sort_keys=True))
                         sys.exit(1)
                         return distance, old_predecessor[timerun-2]
 
