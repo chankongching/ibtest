@@ -112,7 +112,7 @@ def generateequivalentpricelist(p, base, graph):
     # print("graph = ", end="")
     # print(json.dumps(graph,indent=4, sort_keys=True))
     for cur in p:
-        if (cur==base) or (not p.get(iterator)):
+        if (cur==base) or (not p.get(cur)):
             continue
         # print('Cur = ', end='')
         # print(cur)
