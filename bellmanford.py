@@ -46,6 +46,8 @@ def bellman_ford(graph, source):
             for neighbour in graph[node]:
                 # If the distance between the node and the neighbour is lower than the current, store it
                 if (neighbour != source) and (distance[neighbour] > distance[node] + graph[node][neighbour]):
+                    # if not checkinfinity(predecessor, source):
+                    old_predecessor = predecessor
                     # print("old_predecessor = ", end = '')
                     # print(json.dumps(old_predecessor,indent=4, sort_keys=True))
                     # print("predecessor = ", end = '')
@@ -57,9 +59,6 @@ def bellman_ford(graph, source):
                         print('infinity activated')
                         print(json.dumps(old_predecessor,indent=4, sort_keys=True))
                         return distance, old_predecessor
-
-                    if not checkinfinity(predecessor, source):
-                        old_predecessor = predecessor
                     # # First copy the whole distance
                     # distance_check = distance
                     # check = True
