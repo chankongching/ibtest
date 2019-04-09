@@ -52,11 +52,12 @@ def bellman_ford(graph, source):
                     print(json.dumps(predecessor,indent=4, sort_keys=True))
 
                     if not checkinfinity(predecessor, source):
+                        if predecessor[neighbour] != node:
+                            old_predecessor = predecessor
                         distance[neighbour], predecessor[neighbour] = distance[node] + graph[node][neighbour], node
                     else:
                         print('infinity activated')
                         return distance, old_predecessor
-                    old_predecessor = predecessor
                     # # First copy the whole distance
                     # distance_check = distance
                     # check = True
