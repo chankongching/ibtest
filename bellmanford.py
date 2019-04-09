@@ -13,7 +13,7 @@ def bellman_ford(graph, source):
         for node in graph:
             for neighbour in graph[node]:
                 # If the distance between the node and the neighbour is lower than the current, store it
-                if distance[neighbour] > distance[node] + graph[node][neighbour]:
+                if (distance[neighbour] > distance[node] + graph[node][neighbour]) and (neighbour != source):
                     distance[neighbour], predecessor[neighbour] = distance[node] + graph[node][neighbour], node
                     print("predecessor = ", end='')
                     print(json.dumps(predecessor,indent=4, sort_keys=True))
