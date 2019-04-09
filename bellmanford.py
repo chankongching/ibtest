@@ -62,8 +62,7 @@ def bellman_ford(graph, source):
                         print('infinity activated')
                         return distance, old_predecessor
 
-                    if check:
-                        check = False
+                    if not checkinfinity(predecessor, source):
                         old_predecessor = predecessor
                     # # First copy the whole distance
                     # distance_check = distance
