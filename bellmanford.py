@@ -12,14 +12,13 @@ def checkinfinity(p, source):
             iterator = p[iterator]
             if iterator == source:
                 break
-            print("checkstring = ", end = '')
-            print(checkstring)
-            print("checkstring[:-4]", end = '')
-            print(checkstring[:-4])
+            # print("checkstring = ", end = '')
+            # print(checkstring)
+            # print("checkstring[:-4]", end = '')
+            # print(checkstring[:-4])
             for checking in checkstring[:-4].split(":"):
                 if iterator == checking:
-                    check=True
-                    break
+                    return True
     return check
 
 
