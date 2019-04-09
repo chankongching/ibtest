@@ -24,7 +24,7 @@ def bellman_ford(graph, source):
     for node in graph:
         for neighbour in graph[node]:
 
-            if distance[neighbour] <= distance[node] + graph[node][neighbour]:
+            if distance[neighbour] < distance[node] + graph[node][neighbour]:
               print("node = ", end='')
               print(node)
               print("neighbour", end='')
