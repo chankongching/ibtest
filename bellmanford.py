@@ -6,6 +6,11 @@ def bellman_ford(graph, source):
     distance, predecessor = dict(), dict()
     for node in graph:
         distance[node], predecessor[node] = float('inf'), None
+        if node != source and graph[source].get(node):
+            print('node = ')
+            print(node)
+            distance[node], predecessor[node] = graph[source][node], source
+
     distance[source] = 0
     timerun = 0
 
@@ -15,17 +20,18 @@ def bellman_ford(graph, source):
             for neighbour in graph[node]:
                 # If the distance between the node and the neighbour is lower than the current, store it
                 if (neighbour != source) and (distance[neighbour] > distance[node] + graph[node][neighbour]):
-                    # First copy the whole distance
-                    distance_check = distance
-                    check = True
-                    for node in graph:
-                        for neighbour in graph[node]:
-                            if distance_check[neighbour] <= distance_check[node] + graph[node][neighbour]:
-                                check = False
-                    if(check):
-                        distance[neighbour], predecessor[neighbour] = distance[node] + graph[node][neighbour], node
-                    else:
-                        return distance, predecessor
+                    distance[neighbour], predecessor[neighbour] = distance[node] + graph[node][neighbour], node
+                    # # First copy the whole distance
+                    # distance_check = distance
+                    # check = True
+                    # for node in graph:
+                    #     for neighbour in graph[node]:
+                    #         if distance_check[neighbour] <= distance_check[node] + graph[node][neighbour]:
+                    #             check = False
+                    # if(check):
+                    #
+                    # else:
+                    #     return distance, predecessor
                     # print('Timerun = ', end='')
                     # print(timerun)
                     # timerun +=1
@@ -34,11 +40,11 @@ def bellman_ford(graph, source):
                     # print("distance = ", end='')
                     # print(json.dumps(distance,indent=4, sort_keys=True))
 
-    # # Step 3: Check for negative weight cycles
-    # for node in graph:
-    #     for neighbour in graph[node]:
-    #         if (neighbour != source):
-    #           assert distance[neighbour] <= distance[node] + graph[node][neighbour], "Negative weight cycle."
+    # Step 3: Check for negative weight cycles
+    for node in graph:
+        for neighbour in graph[node]:
+            if (neighbour != source):
+              assert distance[neighbour] <= distance[node] + graph[node][neighbour], "Negative weight cycle."
 
     return distance, predecessor
 
